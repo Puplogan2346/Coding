@@ -1695,6 +1695,303 @@ print("All tests passed for summarize_scores")
         ),
         prompt_skill="Ask AI: 'Review this function for naming, type hints, and a docstring, then suggest a cleaner version without changing its behavior.'",
     ),
+    Lesson(
+        id="19-pytest-testing",
+        title="Automated testing with pytest",
+        level="Intermediate",
+        time_minutes=40,
+        objectives=[
+            "Understand why automated tests matter",
+            "Write test functions with assert",
+            "Cover normal cases and edge cases",
+            "Practice the red-green test-first habit",
+        ],
+        explanation="""
+A test is code that checks your other code. Automated tests catch bugs the moment something breaks — especially when you change code later.
+
+The simplest test is an `assert`: it does nothing if the condition is True, and raises an error if it is False.
+
+```python
+def add(a, b):
+    return a + b
+
+assert add(2, 3) == 5      # passes silently
+assert add(0, 0) == 0      # passes silently
+```
+
+**pytest** is the most popular test runner. You put tests in functions whose names start with `test_`, then run `pytest` in your terminal:
+
+```python
+# test_math.py
+from mymath import add
+
+def test_add_positive():
+    assert add(2, 3) == 5
+
+def test_add_with_zero():
+    assert add(5, 0) == 5
+```
+
+```bash
+pytest
+```
+
+pytest finds every `test_` function, runs it, and reports passes and failures.
+
+Always test **edge cases** — the unusual inputs: empty strings, zero, negative numbers, very large values, missing data. Bugs love edges.
+
+A powerful habit is **test-first** (red → green): write the test, watch it fail (red), then write just enough code to make it pass (green). The challenge below gives you the tests — your job is to write the function that turns them green.
+""".strip(),
+        key_terms=["test", "assert", "pytest", "edge case", "test-first"],
+        quiz=[
+            QuizQuestion(
+                prompt="Why write automated tests?",
+                options=[
+                    "To catch bugs automatically when code changes",
+                    "To make code slower",
+                    "To delete code",
+                    "To hide errors",
+                ],
+                answer="To catch bugs automatically when code changes",
+                explanation="Tests re-check your code every time you run them, catching regressions early.",
+            ),
+            QuizQuestion(
+                prompt="What does an assert statement do?",
+                options=[
+                    "Raises an error if a condition is False",
+                    "Prints to the screen",
+                    "Imports a module",
+                    "Defines a class",
+                ],
+                answer="Raises an error if a condition is False",
+                explanation="assert passes silently when True and raises AssertionError when False.",
+            ),
+            QuizQuestion(
+                prompt="What is an edge case?",
+                options=[
+                    "An unusual or boundary input like empty or zero",
+                    "The middle of a list",
+                    "A type of comment",
+                    "A faster algorithm",
+                ],
+                answer="An unusual or boundary input like empty or zero",
+                explanation="Edge cases are boundary inputs where bugs commonly hide.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Make the tests pass: write `is_palindrome(text)` that returns True if the text reads the same forwards and backwards, ignoring spaces and capitalization.",
+            starter_code="""def is_palindrome(text):
+    # Ignore spaces and capitalization, then check if it reads the same backwards.
+    pass
+""",
+            tests="""assert is_palindrome("racecar") == True
+assert is_palindrome("Race car") == True
+assert is_palindrome("hello") == False
+assert is_palindrome("Was it a car or a cat I saw") == True
+print("All tests passed for is_palindrome")
+""",
+            hints=[
+                "Remove spaces with text.replace(' ', '') and lowercase with .lower().",
+                "A string reversed is cleaned[::-1].",
+                "Compare the cleaned string to its reverse.",
+            ],
+            sample_solution="""def is_palindrome(text):
+    cleaned = text.replace(" ", "").lower()
+    return cleaned == cleaned[::-1]
+""",
+        ),
+        prompt_skill="Ask AI: 'Write 3 pytest tests for this function, including one edge case, and explain what each one checks.'",
+    ),
+    Lesson(
+        id="20-web-apis",
+        title="Calling web APIs: requests, status codes, and JSON",
+        level="Intermediate",
+        time_minutes=45,
+        objectives=[
+            "Understand the request and response cycle",
+            "Read HTTP status codes",
+            "Use the requests library to call an API",
+            "Safely read values from a JSON response",
+        ],
+        explanation="""
+An **API** lets your program ask another service for data over the web. You send a **request**; the service sends back a **response**.
+
+The standard library for this is **requests** (install with `pip install requests`):
+
+```python
+import requests
+
+response = requests.get("https://api.example.com/weather?city=Denver")
+print(response.status_code)   # 200 means success
+data = response.json()        # turn the JSON response into a Python dict
+```
+
+**Status codes** tell you what happened:
+
+- `200` — success
+- `404` — not found
+- `500` — server error
+
+Always check the status before trusting the data:
+
+```python
+if response.status_code == 200:
+    data = response.json()
+else:
+    data = None
+```
+
+API responses are usually **JSON**, which becomes nested Python dictionaries and lists. Real responses are messy, so read values defensively (remember Lesson 13's try/except) in case a field is missing.
+
+> Note: the in-app code checker has no internet and cannot install requests, so the challenge below works on a JSON response that has already been fetched for you. You practice the most important real-world skill: safely reading a value out of a messy response.
+""".strip(),
+        key_terms=["API", "HTTP", "GET", "status code", "JSON", "response"],
+        quiz=[
+            QuizQuestion(
+                prompt="What does an HTTP status code of 200 mean?",
+                options=["Success", "Not found", "Server error", "Redirect"],
+                answer="Success",
+                explanation="200 means the request succeeded; 404 is not found and 500 is a server error.",
+            ),
+            QuizQuestion(
+                prompt="What format do most web APIs return data in?",
+                options=["JSON", "A screenshot", "A Word document", "Raw electricity"],
+                answer="JSON",
+                explanation="JSON maps cleanly to Python dictionaries and lists.",
+            ),
+            QuizQuestion(
+                prompt="Which Python library is commonly used to call web APIs?",
+                options=["requests", "random", "turtle", "tkinter"],
+                answer="requests",
+                explanation="The requests library makes HTTP calls simple and readable.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Write `get_temperature(json_text)` that takes a JSON string from a weather API and returns the value at `main` -> `temp`. If that value is missing, return `None` instead of crashing.",
+            starter_code="""def get_temperature(json_text):
+    # Parse the JSON text and safely return data["main"]["temp"], or None.
+    pass
+""",
+            tests="""assert get_temperature('{"main": {"temp": 72}}') == 72
+assert get_temperature('{"main": {}}') is None
+assert get_temperature('{"error": "not found"}') is None
+print("All tests passed for get_temperature")
+""",
+            hints=[
+                "Use json.loads(json_text) to turn the text into a dict.",
+                "Wrap the lookup data['main']['temp'] in a try block.",
+                "Catch KeyError and TypeError and return None.",
+            ],
+            sample_solution="""import json
+
+
+def get_temperature(json_text):
+    data = json.loads(json_text)
+    try:
+        return data["main"]["temp"]
+    except (KeyError, TypeError):
+        return None
+""",
+        ),
+        prompt_skill="Ask AI: 'Show me how to call this API with requests, check the status code, and safely read a field from the JSON response.'",
+    ),
+    Lesson(
+        id="21-capstone-text-analyzer",
+        title="Capstone: build a word-frequency text analyzer",
+        level="Project",
+        time_minutes=55,
+        objectives=[
+            "Combine strings, loops, and dictionaries into one tool",
+            "Count how often each word appears",
+            "Handle the empty-input edge case",
+            "See how small functions become a real feature",
+        ],
+        explanation="""
+Time to combine skills into a real mini-tool: a **word-frequency analyzer** that counts how often each word appears in some text. This pattern powers search, tag clouds, and simple text analysis.
+
+The plan uses things you already know:
+
+1. **Normalize** the text: lowercase it so "The" and "the" count together.
+2. **Split** it into words with `.split()`.
+3. **Count** with a dictionary and the `.get(key, 0)` pattern.
+
+```python
+def word_frequencies(text):
+    counts = {}
+    for word in text.lower().split():
+        counts[word] = counts.get(word, 0) + 1
+    return counts
+
+word_frequencies("the cat the dog")
+# {"the": 2, "cat": 1, "dog": 1}
+```
+
+Once you have the counts, you can build more on top using earlier lessons:
+
+```python
+# Top 3 words (Lesson 14 comprehension + sorting):
+counts = word_frequencies(text)
+top = sorted(counts.items(), key=lambda pair: pair[1], reverse=True)[:3]
+```
+
+That is the whole idea of building software: small, well-named, tested functions that snap together into something useful. Your challenge is the core counter — the foundation everything else builds on.
+""".strip(),
+        key_terms=["capstone", "split", "dictionary", "frequency", "string methods"],
+        quiz=[
+            QuizQuestion(
+                prompt="What does 'hello world'.split() return?",
+                options=[
+                    "['hello', 'world']",
+                    "'hello world'",
+                    "2",
+                    "['h', 'e', 'l', ...]",
+                ],
+                answer="['hello', 'world']",
+                explanation="split() with no argument breaks a string into a list of words on whitespace.",
+            ),
+            QuizQuestion(
+                prompt="Which structure is best for counting how many times each word appears?",
+                options=["A dictionary", "A single integer", "A boolean", "A file"],
+                answer="A dictionary",
+                explanation="A dictionary maps each word (key) to its count (value).",
+            ),
+            QuizQuestion(
+                prompt="What does the dict method .get(key, 0) do?",
+                options=[
+                    "Returns the value or 0 if the key is missing",
+                    "Deletes the key",
+                    "Always returns 0",
+                    "Sorts the dictionary",
+                ],
+                answer="Returns the value or 0 if the key is missing",
+                explanation="get with a default avoids KeyError and is perfect for counting.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Write `word_frequencies(text)` that returns a dictionary mapping each lowercase word to how many times it appears. Words are separated by spaces. An empty string returns an empty dictionary.",
+            starter_code="""def word_frequencies(text):
+    # Return {word: count} using lowercase words split on whitespace.
+    pass
+""",
+            tests="""assert word_frequencies("the cat the dog") == {"the": 2, "cat": 1, "dog": 1}
+assert word_frequencies("") == {}
+assert word_frequencies("Hi hi HI") == {"hi": 3}
+print("All tests passed for word_frequencies")
+""",
+            hints=[
+                "Lowercase the text first with .lower().",
+                "Split into words with .split().",
+                "Use counts[word] = counts.get(word, 0) + 1 inside a loop.",
+            ],
+            sample_solution="""def word_frequencies(text):
+    counts = {}
+    for word in text.lower().split():
+        counts[word] = counts.get(word, 0) + 1
+    return counts
+""",
+        ),
+        prompt_skill="Ask AI: 'Help me extend my word-frequency analyzer to show the top 3 words, and suggest one edge case I should test.'",
+    ),
 ]
 
 

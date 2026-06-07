@@ -194,6 +194,7 @@ SKILL_OUTCOMES: tuple[SkillOutcome, ...] = (
     SkillOutcome("projects", "Project building", "Combine multiple ideas into a small script or app with proof of understanding.", ("11-mini-projects", "12-ai-apps-streamlit"), "Build one small project, test one edge case, and save a demo note.", "Ship a tiny app feature or project checkpoint with a proof card."),
     SkillOutcome("data_and_resilience", "Resilient code and data analysis", "Handle errors gracefully, transform data with comprehensions, and summarize real datasets.", ("13-error-handling", "14-comprehensions", "15-pandas-data"), "Catch one error, write one comprehension, and summarize a tiny dataset.", "Show a function that survives bad input and a small grouped data summary."),
     SkillOutcome("real_world_toolkit", "Real-world toolkit", "Work with dates and times, match patterns with regex, and write clean, readable code.", ("16-dates-times", "17-regex", "18-clean-code"), "Measure a date gap, extract data with a regex, and refactor one function.", "Show a dated calculation, a regex extraction, and a clean type-hinted function."),
+    SkillOutcome("testing_apis_capstone", "Testing, APIs, and shipping", "Write automated tests, call web APIs and read JSON responses, and combine skills into a working tool.", ("19-pytest-testing", "20-web-apis", "21-capstone-text-analyzer"), "Write one test, parse one API response, and build one small analyzer.", "Show a passing test, a safe JSON read, and a working mini-tool."),
 )
 
 
