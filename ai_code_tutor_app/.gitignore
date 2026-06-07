@@ -1,0 +1,14 @@
+__pycache__/
+.pytest_cache/
+.venv/
+.env
+user_progress.json
+data/progress_*.json
+.streamlit/secrets.toml
+*.pyc
+.DS_Store
+data/*.sqlite3
+data/*.sqlite3-*
+data/private_access.json
+data/backups/
+data/ai_code_tutor_progress.sqlite3

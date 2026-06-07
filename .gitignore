@@ -1,0 +1,11 @@
+# OS / editor cruft
+.DS_Store
+**/.DS_Store
+
+# Local-only Claude Code settings
+**/.claude/settings.local.json
+
+# Versioned export archives — the source tree is the source of truth, so keep
+# new .zip snapshots out of git (this is what broke the Streamlit deploy:
+# zips were committed instead of ai_code_tutor_app/app.py).
+*.zip

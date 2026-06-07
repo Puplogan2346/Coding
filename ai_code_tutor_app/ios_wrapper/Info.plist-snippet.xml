@@ -1,0 +1,6 @@
+<!-- Add inside the top-level <dict> of Info.plist if local HTTP loading is blocked. -->
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+</dict>
