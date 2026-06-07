@@ -14,6 +14,7 @@ from ai_tutor import ai_is_configured, call_ai_tutor
 from curriculum import LESSONS
 from glossary import vocab_for_terms
 from learning_path import first_incomplete_lesson_id
+from lesson_extras import common_mistake, worked_example
 from progress import mark_lesson_complete, save_progress
 from ui_components import render_status_pills
 
@@ -90,6 +91,15 @@ def render_lesson_tab(progress_data: dict, progress_path, lesson, lesson_complet
 
         st.markdown("### Lesson")
         st.markdown(lesson.explanation)
+
+        example = worked_example(lesson.id)
+        if example:
+            st.markdown("### 🔎 Worked example")
+            st.markdown(example)
+
+        mistake = common_mistake(lesson.id)
+        if mistake:
+            st.warning(f"⚠️ **Common mistake:** {mistake}")
 
         st.markdown("### 📖 Vocabulary")
         st.caption("Plain-English definitions for the key terms in this lesson.")

@@ -47,6 +47,7 @@ from official_ai_tab import render_official_ai_tab
 from ai_tab import render_ai_tab
 from notes_tab import render_notes_tab
 from deploy_tab import render_deploy_tab
+from glossary_tab import render_glossary_tab
 
 
 st.set_page_config(
@@ -736,6 +737,8 @@ with progress_tab:
     render_dashboard_tab(progress_data, lesson, next_lesson)
 
 with more_tab:
+    with st.expander("📖 Glossary (all key terms)", expanded=False):
+        render_glossary_tab()
     with st.expander("🎓 AI certifications & official resources", expanded=False):
         render_official_ai_tab(progress_data, progress_path)
     with st.expander("💡 Prompt lab", expanded=False):
