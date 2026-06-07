@@ -5,11 +5,18 @@ back on ``app.py``, keeping the per-tab split acyclic.
 """
 from __future__ import annotations
 
+from pathlib import Path
+
 import streamlit as st
 
 from progress import progress_db_path
 from standalone_check import standalone_checks, standalone_summary
 from ui_components import render_card, render_standalone_check
+
+# The app's source files live in this module's directory. Resolve checks against
+# it so the readiness check works regardless of the process working directory
+# (e.g. Streamlit Cloud runs from the repo root, not ai_code_tutor_app/).
+APP_DIR = Path(__file__).resolve().parent
 
 
 def render_deploy_tab(progress_path) -> None:
@@ -41,7 +48,7 @@ git push -u origin main""",
 
     st.subheader("Standalone readiness check")
     st.caption(f"SQLite backup store: `{progress_db_path()}`")
-    checks = standalone_checks(app_dir=".", data_dir=progress_path.parent)
+    checks = standalone_checks(app_dir=APP_DIR, data_dir=progress_path.parent)
     st.caption(standalone_summary(checks))
     for check in checks:
         render_standalone_check(check)
