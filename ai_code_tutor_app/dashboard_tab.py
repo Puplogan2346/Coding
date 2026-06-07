@@ -40,13 +40,13 @@ def render_dashboard_tab(progress_data: dict, lesson, next_lesson) -> None:
     with st.expander("Start here: your first 10 minutes", expanded=completed_count == 0):
         intro_cols = st.columns(4)
         with intro_cols[0]:
-            render_step(1, "Read", "Open the Learn tab and read the current lesson once without memorizing.")
+            render_step(1, "Read", "Open the Lessons tab and read the current lesson once without memorizing.")
         with intro_cols[1]:
-            render_step(2, "Check", "Take the quiz. Misses are useful because they tell you what to review.")
+            render_step(2, "Check", "Take the quiz in the Practice tab. Misses are useful because they tell you what to review.")
         with intro_cols[2]:
-            render_step(3, "Practice", "Try Code Lab from the starter code before viewing the sample solution.")
+            render_step(3, "Practice", "Try Code Lab (Practice tab) from the starter code before viewing the sample solution.")
         with intro_cols[3]:
-            render_step(4, "Prompt", "Use Prompt Lab to ask for help with context, constraints, and verification.")
+            render_step(4, "Prompt", "Use Prompt Lab (More tab) to ask for help with context, constraints, and verification.")
 
     official_stats = official_resource_stats(progress_data)
     metric_cols = st.columns(6)
@@ -70,9 +70,10 @@ def render_dashboard_tab(progress_data: dict, lesson, next_lesson) -> None:
             next_lesson.title,
             f"Next incomplete lesson. Estimated lesson time: {next_lesson.time_minutes} minutes. Focus: {st.session_state.get('study_focus', 'Learn')}.",
         )
-        if st.button("Jump to recommended lesson", type="primary"):
+        if st.button("Select recommended lesson", type="primary"):
             st.session_state.selected_lesson_id = next_lesson.id
             st.rerun()
+        st.caption("Sets the active lesson — then open the 📚 Lessons tab to study it.")
 
         st.subheader("Curriculum map")
         for index, item in enumerate(LESSONS, start=1):

@@ -57,7 +57,7 @@ def render_projects_tab(progress_data: dict, progress_path) -> None:
     )
 
     project_labels = [f"{project.title} ({project.level})" for project in PROJECTS]
-    selected_project_label = st.selectbox("Choose a project track", project_labels)
+    selected_project_label = st.radio("Choose a project track", project_labels, key="project_track_choice")
     selected_project = PROJECTS[project_labels.index(selected_project_label)]
     render_project_summary(selected_project, progress_data)
     st.progress(project_completion_percent(progress_data, selected_project.id))
@@ -70,10 +70,11 @@ def render_projects_tab(progress_data: dict, progress_path) -> None:
             current = saved_milestones.get(milestone.id, {})
             status_options = ["Not started", "In progress", "Completed", "Skipped"]
             current_status = current.get("status", "Not started") if current.get("status", "Not started") in status_options else "Not started"
-            new_status = st.selectbox(
+            new_status = st.radio(
                 "Status",
                 status_options,
                 index=status_options.index(current_status),
+                horizontal=True,
                 key=f"project_status_{selected_project.id}_{milestone.id}",
             )
             new_note = st.text_area(

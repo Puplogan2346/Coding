@@ -122,10 +122,11 @@ def render_official_ai_tab(progress_data: dict, progress_path) -> None:
             st.markdown(f"[Open official page]({resource.url})")
 
             status_index = STATUS_OPTIONS.index(status) if status in STATUS_OPTIONS else 0
-            new_status = st.selectbox(
+            new_status = st.radio(
                 "Status",
                 STATUS_OPTIONS,
                 index=status_index,
+                horizontal=True,
                 key=f"official_status_{resource.id}",
             )
             new_note = st.text_area(

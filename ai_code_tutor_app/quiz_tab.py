@@ -18,17 +18,18 @@ def render_quiz_tab(progress_data: dict, progress_path, lesson) -> None:
     with st.form(key=f"quiz_form_{lesson.id}"):
         selected_answers = []
         for index, question in enumerate(lesson.quiz, start=1):
-            selected = st.selectbox(
+            selected = st.radio(
                 f"{index}. {question.prompt}",
-                ["Choose an answer"] + question.options,
+                question.options,
+                index=None,
                 key=f"quiz_{lesson.id}_{index}",
             )
             selected_answers.append(selected)
 
-        submitted = st.form_submit_button("Submit quiz")
+        submitted = st.form_submit_button("Submit quiz", type="primary")
 
     if submitted:
-        if any(answer == "Choose an answer" for answer in selected_answers):
+        if any(answer is None for answer in selected_answers):
             st.warning("Please answer every question before submitting.")
         else:
             score = 0

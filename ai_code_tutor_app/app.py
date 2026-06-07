@@ -676,6 +676,15 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# First-run welcome: only for a brand-new profile (no lessons, no missions yet),
+# point straight at Lesson 1 so day one has one obvious next step.
+if completed_count == 0 and daily_done == 0:
+    st.info(
+        "👋 **New here?** Open the **📚 Lessons** tab and press "
+        "**▶ Start Lesson 1 — Python mindset** to begin. Each session is about 30 minutes: "
+        "read a little, try the quiz, and save one small win."
+    )
+
 # Flat, single-row navigation: seven scannable destinations instead of the old
 # tabs-inside-tabs (3 groups -> 13 sub-tabs). Lower-traffic surfaces (Focus
 # Coach, AI Certs, Prompt Lab, Notes, Deploy) move into expanders so every

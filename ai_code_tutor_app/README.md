@@ -2,6 +2,43 @@
 
 A private, deploy-ready Streamlit training app that feels like a **daily coding gym**: open the app, press **Start Today**, complete one 10/30/45-minute workout, save a proof card, and come back tomorrow.
 
+## Getting started (your first lesson)
+
+1. Open the app and go to the **📚 Lessons** tab.
+2. Press **▶ Start Lesson 1 — Python mindset: commands, output, and mistakes**.
+3. Read the lesson, take the quiz in the **✏️ Practice** tab, and try the Code Lab challenge.
+4. Come back tomorrow and press **Start Today** on the **🏠 Today** tab for your 30-minute session.
+
+No API key is required — the AI tutor is optional. Add `OPENAI_API_KEY` (as a Streamlit secret or env var) only if you want live AI hints.
+
+## The 12 lessons
+
+| # | Lesson | Level |
+|---|--------|-------|
+| 1 | Python mindset: commands, output, and mistakes | Beginner |
+| 2 | Variables, strings, numbers, and booleans | Beginner |
+| 3 | Decisions with if, elif, and else | Beginner |
+| 4 | Loops: repeat work without repeating yourself | Beginner |
+| 5 | Functions: reusable steps with inputs and outputs | Beginner |
+| 6 | Lists and dictionaries: storing many things | Beginner |
+| 7 | Debugging and tests: prove your code works | Intermediate |
+| 8 | Files, JSON, and APIs: talking to the outside world | Intermediate |
+| 9 | Object-oriented basics: classes and objects | Intermediate |
+| 10 | Prompt engineering for coding and learning | Intermediate |
+| 11 | Mini-project: build a quiz scorer | Project |
+| 12 | AI app basics with Streamlit | Project |
+
+## Navigation
+
+A single, flat row of seven tabs (no nested menus, no lesson dropdown):
+
+- **🏠 Today** — the daily coding gym (Start Today → one rep at a time → save proof). Focus Coach lives here in an expander.
+- **📚 Lessons** — a clickable list of all 12 lessons with a "Start Lesson 1 / Continue" button; the open lesson's content shows below.
+- **✏️ Practice** — the current lesson's quiz and Code Lab challenge.
+- **🛠️ Projects** — project tracks and capstone checkpoints.
+- **🤖 AI Tutor** — optional AI chat about the current lesson.
+- **📈 Progress** — learning path, milestones, graduation checklist, and your dashboard.
+- **⋯ More** — AI certifications, Prompt Lab, Notes, and Deploy tools.
 
 ### Official AI Lessons & Certifications
 

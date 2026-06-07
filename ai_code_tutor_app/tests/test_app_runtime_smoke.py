@@ -90,6 +90,8 @@ class FakeStreamlit(types.ModuleType):
 
     def radio(self, label, options, index=0, **kwargs):
         options = list(options)
+        if index is None:  # st.radio(..., index=None) starts with no selection
+            return None
         return options[index] if options else None
 
     def checkbox(self, label, value=False, **kwargs):

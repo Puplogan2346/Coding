@@ -34,8 +34,10 @@ def render_code_tab(lesson) -> None:
     runner_on = code_runner_enabled()
     if not runner_on:
         st.info(
-            "The code runner is off. To run tests locally, start the app with "
-            "ALLOW_CODE_RUNNER=true. Keep it off for public deployments."
+            "✍️ Write your solution above, then compare it with the sample solution below. "
+            "To run the tests right here, launch the app locally with `ALLOW_CODE_RUNNER=true` — "
+            "or paste your code into any Python editor or a free online runner (e.g. replit.com). "
+            "The in-app runner stays off so the shared app is safe for everyone."
         )
     else:
         st.warning(
