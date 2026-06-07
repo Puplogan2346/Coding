@@ -48,6 +48,7 @@ from ai_tab import render_ai_tab
 from notes_tab import render_notes_tab
 from deploy_tab import render_deploy_tab
 from glossary_tab import render_glossary_tab
+from review_tab import render_review_tab
 
 
 st.set_page_config(
@@ -719,10 +720,12 @@ with lessons_tab:
     render_lesson_tab(progress_data, progress_path, lesson, lesson_complete)
 
 with practice_tab:
-    st.subheader("Quiz")
+    render_review_tab(progress_data)
+    st.divider()
+    st.subheader("📝 Current lesson quiz")
     render_quiz_tab(progress_data, progress_path, lesson)
     st.divider()
-    st.subheader("Code Lab")
+    st.subheader("💻 Code Lab")
     render_code_tab(lesson)
 
 with projects_tab:
