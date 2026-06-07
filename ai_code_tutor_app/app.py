@@ -49,6 +49,7 @@ from notes_tab import render_notes_tab
 from deploy_tab import render_deploy_tab
 from glossary_tab import render_glossary_tab
 from review_tab import render_review_tab
+from flashcards_tab import render_flashcards_tab
 
 
 st.set_page_config(
@@ -695,6 +696,7 @@ if completed_count == 0 and daily_done == 0:
     today_tab,
     lessons_tab,
     practice_tab,
+    review_tab,
     projects_tab,
     ai_tutor_tab,
     progress_tab,
@@ -704,6 +706,7 @@ if completed_count == 0 and daily_done == 0:
         "🏠 Today",
         "📚 Lessons",
         "✏️ Practice",
+        "🔁 Review",
         "🛠️ Projects",
         "🤖 AI Tutor",
         "📈 Progress",
@@ -720,13 +723,16 @@ with lessons_tab:
     render_lesson_tab(progress_data, progress_path, lesson, lesson_complete)
 
 with practice_tab:
-    render_review_tab(progress_data)
-    st.divider()
-    st.subheader("📝 Current lesson quiz")
+    st.subheader("📝 Quiz")
     render_quiz_tab(progress_data, progress_path, lesson)
     st.divider()
     st.subheader("💻 Code Lab")
     render_code_tab(lesson)
+
+with review_tab:
+    render_review_tab(progress_data, progress_path)
+    st.divider()
+    render_flashcards_tab(progress_data, progress_path)
 
 with projects_tab:
     render_projects_tab(progress_data, progress_path)

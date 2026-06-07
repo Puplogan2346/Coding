@@ -9,6 +9,7 @@ from __future__ import annotations
 import streamlit as st
 
 from curriculum import LESSONS
+from progress import record_review_result, save_progress
 from review import build_review_quiz, lessons_to_review, next_lesson_to_study, quiz_percent
 
 
@@ -17,7 +18,7 @@ def _go_to_lesson(lesson_id: str) -> None:
     st.rerun()
 
 
-def render_review_tab(progress_data: dict) -> None:
+def render_review_tab(progress_data: dict, progress_path) -> None:
     st.subheader("📊 Review — based on your progress")
     completed = set(progress_data.get("completed_lessons", []) or [])
     total = len(LESSONS)
@@ -31,6 +32,14 @@ def render_review_tab(progress_data: dict) -> None:
     cols[0].metric("Lessons done", f"{len(completed)}/{total}")
     cols[1].metric("To review", len(review_list))
     cols[2].metric("Avg quiz score", f"{avg_quiz}%")
+
+    history = progress_data.get("review_history", []) or []
+    if history:
+        last = history[-1]
+        st.caption(
+            f"📈 Last review quiz: {last.get('score')}/{last.get('total')} "
+            f"({last.get('percent')}%) · {len(history)} review(s) taken."
+        )
 
     # Progress-based lesson recommendations.
     if len(completed) < total:
@@ -78,6 +87,8 @@ def render_review_tab(progress_data: dict) -> None:
             return
         score = sum(1 for _, question, selected in answers if selected == question.answer)
         total_q = len(answers)
+        record_review_result(progress_data, score, total_q)
+        save_progress(progress_data, progress_path)
         percent = round(score / total_q * 100)
         if percent >= 80:
             st.success(f"Review score: {score}/{total_q} ({percent}%). Strong recall!")

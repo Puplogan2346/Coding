@@ -160,6 +160,8 @@ def default_progress(lesson_ids: Iterable[str], profile_name: str = "guest") -> 
         "project_milestones": {},
         "gym_sessions": {},
         "mistake_cards": [],
+        "flashcards": {},
+        "review_history": [],
     }
 
 
@@ -208,9 +210,13 @@ def normalize_progress_data(
         "lesson_completed_at",
         "project_milestones",
         "gym_sessions",
+        "flashcards",
     ):
         if not isinstance(base.get(key), dict):
             base[key] = {}
+
+    review_history = base.get("review_history", [])
+    base["review_history"] = review_history if isinstance(review_history, list) else []
 
     daily_reflections = base.get("daily_reflections", [])
     base["daily_reflections"] = daily_reflections if isinstance(daily_reflections, list) else []
@@ -304,6 +310,18 @@ def record_quiz_score(data: Dict[str, Any], lesson_id: str, score: int, total: i
         "percent": round((score / total) * 100, 1) if total else 0,
         "taken_at": _now(),
     }
+
+
+def record_review_result(data: Dict[str, Any], score: int, total: int) -> None:
+    """Persist a mixed-review-quiz result so progress shows review history."""
+    data.setdefault("review_history", []).append(
+        {
+            "score": score,
+            "total": total,
+            "percent": round((score / total) * 100, 1) if total else 0,
+            "taken_at": _now(),
+        }
+    )
 
 
 def save_note(data: Dict[str, Any], lesson_id: str, note: str) -> None:

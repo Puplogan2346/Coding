@@ -1,5 +1,11 @@
 from curriculum import LESSONS
-from progress import default_progress, mark_lesson_complete, record_quiz_score
+from progress import (
+    default_progress,
+    mark_lesson_complete,
+    normalize_progress_data,
+    record_quiz_score,
+    record_review_result,
+)
 from review import (
     build_review_quiz,
     lessons_to_review,
@@ -19,6 +25,14 @@ def test_new_user_has_no_review_quiz():
     data = _fresh()
     assert build_review_quiz(data) == []
     assert lessons_to_review(data) == []
+
+
+def test_review_result_persists_through_normalize():
+    data = _fresh()
+    record_review_result(data, 4, 5)
+    restored = normalize_progress_data(data, LESSON_IDS)
+    assert restored["review_history"][-1]["score"] == 4
+    assert restored["review_history"][-1]["percent"] == 80.0
 
 
 def test_next_lesson_to_study_is_first_incomplete():
