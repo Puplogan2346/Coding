@@ -12,6 +12,7 @@ import streamlit as st
 
 from ai_tutor import ai_is_configured, call_ai_tutor
 from curriculum import LESSONS
+from glossary import vocab_for_terms
 from learning_path import first_incomplete_lesson_id
 from progress import mark_lesson_complete, save_progress
 from ui_components import render_status_pills
@@ -90,8 +91,10 @@ def render_lesson_tab(progress_data: dict, progress_path, lesson, lesson_complet
         st.markdown("### Lesson")
         st.markdown(lesson.explanation)
 
-        st.markdown("**Key terms**")
-        st.write(" ".join(f"`{term}`" for term in lesson.key_terms))
+        st.markdown("### 📖 Vocabulary")
+        st.caption("Plain-English definitions for the key terms in this lesson.")
+        for term, definition in vocab_for_terms(lesson.key_terms):
+            st.markdown(f"- **{term}** — {definition}")
 
         st.info(f"💡 Prompt skill: {lesson.prompt_skill}")
 
