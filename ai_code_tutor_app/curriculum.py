@@ -1382,6 +1382,319 @@ print("All tests passed for average_by_category")
         ),
         prompt_skill="Ask AI: 'Given columns [list them] and the question [your question], which pandas groupby and aggregation should I use?'",
     ),
+    Lesson(
+        id="16-dates-times",
+        title="Working with dates and times",
+        level="Intermediate",
+        time_minutes=35,
+        objectives=[
+            "Create and read dates with the datetime module",
+            "Parse a date from text",
+            "Measure the difference between two dates",
+            "Format a date for people to read",
+        ],
+        explanation="""
+Apps constantly work with time: deadlines, streaks, "days since," schedules. Python's built-in **datetime** module handles all of it.
+
+Make a date and read its parts:
+
+```python
+from datetime import date
+
+today = date(2024, 5, 1)
+print(today.year)   # 2024
+print(today.month)  # 5
+```
+
+Parse a date that arrived as text (ISO format is `YYYY-MM-DD`):
+
+```python
+from datetime import date
+
+deadline = date.fromisoformat("2024-12-25")
+```
+
+Subtract two dates to get a **timedelta**, then read `.days`:
+
+```python
+from datetime import date
+
+start = date(2024, 1, 1)
+end = date(2024, 1, 8)
+gap = end - start
+print(gap.days)   # 7
+```
+
+Format a date for humans with `strftime`:
+
+```python
+print(end.strftime("%B %d, %Y"))   # January 08, 2024
+```
+
+The same module has `datetime` (date + time) and `timedelta` (a length of time you can add or subtract). With these you can build countdowns, streak counters, and "due in N days" features.
+""".strip(),
+        key_terms=["datetime", "date", "timedelta", "fromisoformat", "strftime"],
+        quiz=[
+            QuizQuestion(
+                prompt="Which module handles dates and times in Python?",
+                options=["datetime", "random", "math", "json"],
+                answer="datetime",
+                explanation="The built-in datetime module provides date, time, datetime, and timedelta.",
+            ),
+            QuizQuestion(
+                prompt="What do you get when you subtract two date objects?",
+                options=[
+                    "A timedelta showing the difference",
+                    "A string",
+                    "Nothing",
+                    "An error every time",
+                ],
+                answer="A timedelta showing the difference",
+                explanation="Subtracting dates gives a timedelta; read .days to get the number of days.",
+            ),
+            QuizQuestion(
+                prompt="What text format does date.fromisoformat expect?",
+                options=["YYYY-MM-DD", "MM/DD/YY", "a timestamp only", "day-month"],
+                answer="YYYY-MM-DD",
+                explanation="ISO format is year-month-day, e.g. 2024-12-25.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Write `days_between(start, end)` that takes two date strings in `YYYY-MM-DD` format and returns the number of days from `start` to `end` (a whole number).",
+            starter_code="""def days_between(start, end):
+    # start, end: date strings like "2024-01-01".
+    # Return the number of days from start to end.
+    pass
+""",
+            tests="""assert days_between("2024-01-01", "2024-01-08") == 7
+assert days_between("2024-01-01", "2024-02-01") == 31
+assert days_between("2024-01-10", "2024-01-10") == 0
+print("All tests passed for days_between")
+""",
+            hints=[
+                "Import date from datetime.",
+                "Use date.fromisoformat to turn each string into a date.",
+                "Subtract the two dates and return the result's .days.",
+            ],
+            sample_solution="""from datetime import date
+
+
+def days_between(start, end):
+    start_date = date.fromisoformat(start)
+    end_date = date.fromisoformat(end)
+    return (end_date - start_date).days
+""",
+        ),
+        prompt_skill="Ask AI: 'How do I parse this date format and calculate the difference in days between two dates?'",
+    ),
+    Lesson(
+        id="17-regex",
+        title="Pattern matching with regular expressions",
+        level="Intermediate",
+        time_minutes=40,
+        objectives=[
+            "Understand what a regular expression is",
+            "Use the re module to search text",
+            "Read common patterns like \\d and +",
+            "Extract all matches from a string",
+        ],
+        explanation="""
+A **regular expression** (regex) is a tiny pattern language for finding things in text: phone numbers, dates, words, digits. Python's built-in **re** module runs them.
+
+The most useful function is `re.findall`, which returns **every** match as a list:
+
+```python
+import re
+
+text = "Order 12 has 3 items"
+re.findall(r"\\d+", text)   # ["12", "3"]
+```
+
+A few building blocks:
+
+- `\\d` matches a single digit (0-9). `\\d+` matches one or more digits in a row.
+- `\\w` matches a letter, digit, or underscore.
+- `.` matches any character.
+- `+` means "one or more"; `*` means "zero or more".
+
+Write patterns as **raw strings** (`r"..."`) so backslashes are not misread by Python.
+
+Other handy functions:
+
+```python
+re.search(r"\\d+", "abc 42")   # finds the first match (or None)
+re.sub(r"\\d+", "#", "a1 b22")  # replace matches: "a# b#"
+```
+
+Regex feels cryptic at first, but for tasks like "pull all the numbers out" or "does this look like an email," it turns many lines of code into one pattern.
+""".strip(),
+        key_terms=["regex", "pattern", "re", "findall", "raw string", "digit"],
+        quiz=[
+            QuizQuestion(
+                prompt="What is a regular expression used for?",
+                options=[
+                    "Finding and matching patterns in text",
+                    "Doing math",
+                    "Sorting numbers",
+                    "Closing files",
+                ],
+                answer="Finding and matching patterns in text",
+                explanation="Regex describes a text pattern so you can search, extract, or replace.",
+            ),
+            QuizQuestion(
+                prompt="What does the pattern \\d+ match?",
+                options=["One or more digits", "Only letters", "Spaces only", "Nothing"],
+                answer="One or more digits",
+                explanation="\\d is a digit and + means one or more, so \\d+ matches whole numbers.",
+            ),
+            QuizQuestion(
+                prompt="Which re function returns all non-overlapping matches as a list?",
+                options=["re.findall", "re.print", "re.delete", "re.loop"],
+                answer="re.findall",
+                explanation="re.findall returns every match in the text as a list of strings.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Write `find_numbers(text)` that returns a list of every whole number in the text, converted to integers. Example: `\"I have 2 cats and 10 fish\"` -> `[2, 10]`.",
+            starter_code="""def find_numbers(text):
+    # Return a list of all whole numbers in text, as ints.
+    pass
+""",
+            tests="""assert find_numbers("I have 2 cats and 10 fish") == [2, 10]
+assert find_numbers("no numbers here") == []
+assert find_numbers("order 5, item 42, qty 100") == [5, 42, 100]
+print("All tests passed for find_numbers")
+""",
+            hints=[
+                "Import re and use re.findall with the pattern r\"\\d+\".",
+                "findall returns strings; convert each to int.",
+                "A list comprehension makes the conversion clean.",
+            ],
+            sample_solution="""import re
+
+
+def find_numbers(text):
+    return [int(match) for match in re.findall(r"\\d+", text)]
+""",
+        ),
+        prompt_skill="Ask AI: 'Write a regular expression that matches [describe the pattern] and explain each part of it.'",
+    ),
+    Lesson(
+        id="18-clean-code",
+        title="Clean code: type hints, docstrings, and refactoring",
+        level="Project",
+        time_minutes=40,
+        objectives=[
+            "Write clear names that explain themselves",
+            "Add type hints to function signatures",
+            "Document functions with a short docstring",
+            "Refactor a long function into smaller, named steps",
+        ],
+        explanation="""
+Code is read far more often than it is written — usually by future you. **Clean code** is about being kind to that reader.
+
+**Good names** remove the need for comments:
+
+```python
+# Unclear
+def f(x):
+    return x * 0.9
+
+# Clear
+def apply_discount(price):
+    return price * 0.9
+```
+
+**Type hints** tell the reader (and tools) what goes in and what comes out:
+
+```python
+def apply_discount(price: float) -> float:
+    return price * 0.9
+```
+
+**Docstrings** explain the job in one line:
+
+```python
+def apply_discount(price: float) -> float:
+    \"\"\"Return the price after a 10% discount.\"\"\"
+    return price * 0.9
+```
+
+**Refactoring** means improving the shape of code without changing what it does. If a function does three jobs, split it into three small, well-named functions. Small functions are easier to name, test, and reuse.
+
+Clean code rules of thumb:
+
+- One function, one job.
+- Name things for what they mean, not how they work.
+- Prefer a few clear lines over one clever line.
+- If you need a comment to explain *what* code does, try a better name first.
+""".strip(),
+        key_terms=["type hint", "docstring", "refactor", "readability", "naming"],
+        quiz=[
+            QuizQuestion(
+                prompt="What is the main benefit of clean code with good names and docstrings?",
+                options=[
+                    "It runs faster",
+                    "It is easier for humans to read and maintain",
+                    "It uses less memory",
+                    "It hides bugs",
+                ],
+                answer="It is easier for humans to read and maintain",
+                explanation="Clean code is mostly about the next human who reads it, including future you.",
+            ),
+            QuizQuestion(
+                prompt="What does a type hint like def add(a: int, b: int) -> int communicate?",
+                options=[
+                    "The expected types of inputs and the return value",
+                    "That the code is encrypted",
+                    "That the function is private",
+                    "Nothing at all",
+                ],
+                answer="The expected types of inputs and the return value",
+                explanation="Type hints document expected input and output types for readers and tools.",
+            ),
+            QuizQuestion(
+                prompt="When should you refactor a long function?",
+                options=[
+                    "When it does several jobs that could be smaller named functions",
+                    "Never",
+                    "Only if it crashes",
+                    "Only on the last day",
+                ],
+                answer="When it does several jobs that could be smaller named functions",
+                explanation="Splitting multi-job functions into small named ones improves readability and testing.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Write a clean function `summarize_scores(scores)` that returns a dictionary with the `min`, `max`, and `average` (rounded to 1 decimal) of a list of numbers. For an empty list, return all three as `None`. Use a clear name and a docstring.",
+            starter_code="""def summarize_scores(scores: list) -> dict:
+    \"\"\"Return min, max, and average (1 decimal) of scores; None for each if empty.\"\"\"
+    pass
+""",
+            tests="""assert summarize_scores([10, 20, 30]) == {"min": 10, "max": 30, "average": 20.0}
+assert summarize_scores([5]) == {"min": 5, "max": 5, "average": 5.0}
+assert summarize_scores([2, 3]) == {"min": 2, "max": 3, "average": 2.5}
+assert summarize_scores([]) == {"min": None, "max": None, "average": None}
+print("All tests passed for summarize_scores")
+""",
+            hints=[
+                "Handle the empty list first and return the None dictionary.",
+                "Use the built-in min(), max(), sum(), and len() functions.",
+                "Round the average with round(value, 1).",
+            ],
+            sample_solution="""def summarize_scores(scores: list) -> dict:
+    \"\"\"Return min, max, and average (1 decimal) of scores; None for each if empty.\"\"\"
+    if not scores:
+        return {"min": None, "max": None, "average": None}
+    return {
+        "min": min(scores),
+        "max": max(scores),
+        "average": round(sum(scores) / len(scores), 1),
+    }
+""",
+        ),
+        prompt_skill="Ask AI: 'Review this function for naming, type hints, and a docstring, then suggest a cleaner version without changing its behavior.'",
+    ),
 ]
 
 

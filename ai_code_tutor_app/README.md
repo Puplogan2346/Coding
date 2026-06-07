@@ -11,7 +11,7 @@ A private, deploy-ready Streamlit training app that feels like a **daily coding 
 
 No API key is required — the AI tutor is optional. Add `OPENAI_API_KEY` (as a Streamlit secret or env var) only if you want live AI hints.
 
-## The 15 lessons
+## The 18 lessons
 
 | # | Lesson | Level |
 |---|--------|-------|
@@ -30,13 +30,16 @@ No API key is required — the AI tutor is optional. Add `OPENAI_API_KEY` (as a 
 | 13 | Error handling: try, except, and resilient code | Intermediate |
 | 14 | List comprehensions: transform data in one clean line | Intermediate |
 | 15 | Data analysis with pandas: summarize real data | Project |
+| 16 | Working with dates and times | Intermediate |
+| 17 | Pattern matching with regular expressions | Intermediate |
+| 18 | Clean code: type hints, docstrings, and refactoring | Project |
 
 ## Navigation
 
 A single, flat row of seven tabs (no nested menus, no lesson dropdown):
 
 - **🏠 Today** — the daily coding gym (Start Today → one rep at a time → save proof). Focus Coach lives here in an expander.
-- **📚 Lessons** — a clickable list of all 15 lessons with a "Start Lesson 1 / Continue" button; the open lesson's content shows below.
+- **📚 Lessons** — a clickable list of all 18 lessons with a "Start Lesson 1 / Continue" button; the open lesson's content shows below.
 - **✏️ Practice** — the current lesson's quiz and Code Lab challenge.
 - **🛠️ Projects** — project tracks and capstone checkpoints.
 - **🤖 AI Tutor** — optional AI chat about the current lesson.

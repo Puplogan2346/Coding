@@ -193,6 +193,7 @@ SKILL_OUTCOMES: tuple[SkillOutcome, ...] = (
     SkillOutcome("ai_prompting", "AI-assisted coding", "Ask AI for hints, debugging help, examples, and checks without copying blindly.", ("10-ai-prompting",), "Write a prompt with task, context, constraints, format, and verification.", "Ask for a hint first, then explain the fix in your own words."),
     SkillOutcome("projects", "Project building", "Combine multiple ideas into a small script or app with proof of understanding.", ("11-mini-projects", "12-ai-apps-streamlit"), "Build one small project, test one edge case, and save a demo note.", "Ship a tiny app feature or project checkpoint with a proof card."),
     SkillOutcome("data_and_resilience", "Resilient code and data analysis", "Handle errors gracefully, transform data with comprehensions, and summarize real datasets.", ("13-error-handling", "14-comprehensions", "15-pandas-data"), "Catch one error, write one comprehension, and summarize a tiny dataset.", "Show a function that survives bad input and a small grouped data summary."),
+    SkillOutcome("real_world_toolkit", "Real-world toolkit", "Work with dates and times, match patterns with regex, and write clean, readable code.", ("16-dates-times", "17-regex", "18-clean-code"), "Measure a date gap, extract data with a regex, and refactor one function.", "Show a dated calculation, a regex extraction, and a clean type-hinted function."),
 )
 
 
