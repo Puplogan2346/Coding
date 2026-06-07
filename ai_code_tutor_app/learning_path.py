@@ -192,6 +192,7 @@ SKILL_OUTCOMES: tuple[SkillOutcome, ...] = (
     SkillOutcome("object_modeling", "Objects and structure", "Use simple classes/objects when data and behavior belong together.", ("09-oop",), "Create a class with attributes and one useful method.", "Explain when a class is helpful and when a dictionary is enough."),
     SkillOutcome("ai_prompting", "AI-assisted coding", "Ask AI for hints, debugging help, examples, and checks without copying blindly.", ("10-ai-prompting",), "Write a prompt with task, context, constraints, format, and verification.", "Ask for a hint first, then explain the fix in your own words."),
     SkillOutcome("projects", "Project building", "Combine multiple ideas into a small script or app with proof of understanding.", ("11-mini-projects", "12-ai-apps-streamlit"), "Build one small project, test one edge case, and save a demo note.", "Ship a tiny app feature or project checkpoint with a proof card."),
+    SkillOutcome("data_and_resilience", "Resilient code and data analysis", "Handle errors gracefully, transform data with comprehensions, and summarize real datasets.", ("13-error-handling", "14-comprehensions", "15-pandas-data"), "Catch one error, write one comprehension, and summarize a tiny dataset.", "Show a function that survives bad input and a small grouped data summary."),
 )
 
 
@@ -450,6 +451,8 @@ def learning_outcomes() -> tuple[str, ...]:
         "Debug common beginner errors by reading messages and isolating the smallest failing line.",
         "Write simple tests or manual checks for expected behavior.",
         "Understand basic files, JSON/API shapes, and object-oriented vocabulary.",
+        "Handle errors with try/except and validate input so code fails politely.",
+        "Transform data with comprehensions and summarize datasets (including pandas basics).",
         "Use AI for hints, explanations, tests, and planning without outsourcing all thinking.",
         "Build and explain a small beginner project or capstone feature.",
     )

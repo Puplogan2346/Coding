@@ -62,5 +62,5 @@ def test_new_user_can_complete_first_learning_loop(tmp_path: Path):
     assert official_resource_stats(reloaded)["started"] == 1
     assert reloaded["focus_checkins"][0]["win"] == "finished first loop"
     assert completed_project_milestones_count(reloaded) == 1
-    assert completion_percent(reloaded, len(LESSONS)) == 0.083
+    assert completion_percent(reloaded, len(LESSONS)) == round(1 / len(LESSONS), 3)
     assert lessons_remaining(reloaded, len(LESSONS)) == len(LESSONS) - 1

@@ -1048,6 +1048,340 @@ print("All tests passed for make_lesson_card")
         ),
         prompt_skill="Before building an AI app, write a one-sentence job statement: `This AI helps the learner do X when Y happens.`",
     ),
+    Lesson(
+        id="13-error-handling",
+        title="Error handling: try, except, and resilient code",
+        level="Intermediate",
+        time_minutes=35,
+        objectives=[
+            "Catch errors with try and except",
+            "Handle specific error types instead of hiding all of them",
+            "Use else and finally for clean-up",
+            "Validate input so code fails politely instead of crashing",
+        ],
+        explanation="""
+Real programs meet messy input: empty files, typos, missing keys, division by zero. **Error handling** lets your code respond instead of crashing.
+
+The core tool is `try` / `except`:
+
+```python
+try:
+    number = int(user_text)
+except ValueError:
+    number = 0  # a safe fallback
+```
+
+Python runs the `try` block. If a matching error happens, it jumps to `except` instead of stopping the whole program.
+
+Catch *specific* errors, not everything:
+
+```python
+try:
+    total = price / quantity
+except ZeroDivisionError:
+    total = 0
+```
+
+A bare `except:` that swallows every error hides real bugs. Name the error you expect.
+
+Two helpers complete the pattern:
+
+- `else` runs only when the `try` block had **no** error.
+- `finally` runs **every time**, error or not — great for closing files.
+
+```python
+try:
+    value = data["score"]
+except KeyError:
+    print("No score yet")
+else:
+    print("Score is", value)
+finally:
+    print("Done checking")
+```
+
+You can also *raise* your own error when something is wrong:
+
+```python
+def set_age(age):
+    if age < 0:
+        raise ValueError("Age cannot be negative")
+    return age
+```
+
+Good rule of thumb: handle the errors you can reasonably expect, and let truly unexpected ones surface so you can fix the real bug.
+""".strip(),
+        key_terms=["exception", "try", "except", "raise", "finally", "ValueError"],
+        quiz=[
+            QuizQuestion(
+                prompt="What does a try/except block do?",
+                options=[
+                    "Speeds up code",
+                    "Catches and handles errors so the program can continue",
+                    "Deletes variables",
+                    "Hides all output",
+                ],
+                answer="Catches and handles errors so the program can continue",
+                explanation="`try` runs risky code; `except` responds if a matching error happens.",
+            ),
+            QuizQuestion(
+                prompt="Which error type does int('hello') raise?",
+                options=["ValueError", "KeyError", "IndexError", "ZeroDivisionError"],
+                answer="ValueError",
+                explanation="The text is not a valid number, so Python raises a ValueError.",
+            ),
+            QuizQuestion(
+                prompt="When does a `finally` block run?",
+                options=[
+                    "Only when there is an error",
+                    "Only when there is no error",
+                    "Always, whether or not an error happened",
+                    "Never",
+                ],
+                answer="Always, whether or not an error happened",
+                explanation="`finally` always runs, which makes it perfect for clean-up like closing files.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Write `safe_divide(a, b)` that returns `a / b`. If the division is impossible (dividing by zero or a non-number is passed in), return `None` instead of crashing.",
+            starter_code="""def safe_divide(a, b):
+    # Return a / b, or None if that is not possible.
+    pass
+""",
+            tests="""assert safe_divide(10, 2) == 5
+assert safe_divide(9, 3) == 3
+assert safe_divide(5, 0) is None
+assert safe_divide(7, "x") is None
+print("All tests passed for safe_divide")
+""",
+            hints=[
+                "Wrap the division in a try block.",
+                "Catch ZeroDivisionError and TypeError in the except.",
+                "Return None from the except block.",
+            ],
+            sample_solution="""def safe_divide(a, b):
+    try:
+        return a / b
+    except (ZeroDivisionError, TypeError):
+        return None
+""",
+        ),
+        prompt_skill="Ask AI: 'What exceptions can this function raise, and how should I handle each one safely?'",
+    ),
+    Lesson(
+        id="14-comprehensions",
+        title="List comprehensions: transform data in one clean line",
+        level="Intermediate",
+        time_minutes=35,
+        objectives=[
+            "Write a list comprehension",
+            "Add a condition to filter items",
+            "Use a dictionary comprehension",
+            "Know when a normal loop is clearer",
+        ],
+        explanation="""
+A **list comprehension** builds a new list from an existing one in a single readable line. Compare the loop and the comprehension:
+
+```python
+# Loop version
+doubled = []
+for n in [1, 2, 3]:
+    doubled.append(n * 2)
+
+# Comprehension version
+doubled = [n * 2 for n in [1, 2, 3]]   # [2, 4, 6]
+```
+
+Read it as: *"give me `n * 2` for each `n` in the list."*
+
+Add an `if` at the end to **filter**:
+
+```python
+positives = [n for n in [-2, 5, -1, 8] if n > 0]   # [5, 8]
+```
+
+The same idea works for dictionaries:
+
+```python
+prices = {"apple": 1, "pear": 2}
+doubled_prices = {name: cost * 2 for name, cost in prices.items()}
+# {"apple": 2, "pear": 4}
+```
+
+Comprehensions are great for short transform-and-filter jobs. But reach for a regular loop when the logic is long, has several steps, or causes side effects (like printing or saving). Clear code beats clever code.
+""".strip(),
+        key_terms=["list comprehension", "filter", "expression", "dict comprehension", "iterable"],
+        quiz=[
+            QuizQuestion(
+                prompt="What does [x * 2 for x in [1, 2, 3]] produce?",
+                options=["[1, 2, 3]", "[2, 4, 6]", "[1, 4, 9]", "6"],
+                answer="[2, 4, 6]",
+                explanation="Each item is multiplied by 2, giving a new list [2, 4, 6].",
+            ),
+            QuizQuestion(
+                prompt="How do you keep only items that pass a condition in a comprehension?",
+                options=[
+                    "Add an if at the end",
+                    "Use a while loop",
+                    "You cannot filter in a comprehension",
+                    "Add a try block",
+                ],
+                answer="Add an if at the end",
+                explanation="`[x for x in items if condition]` keeps only items where the condition is True.",
+            ),
+            QuizQuestion(
+                prompt="When is a regular for loop clearer than a comprehension?",
+                options=[
+                    "When the logic is long or has side effects",
+                    "Never",
+                    "Only on Mondays",
+                    "When the list is empty",
+                ],
+                answer="When the logic is long or has side effects",
+                explanation="Comprehensions shine for short transforms; long or multi-step logic reads better as a loop.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Write `even_squares(numbers)` that returns a list of the squares of only the even numbers, using a list comprehension.",
+            starter_code="""def even_squares(numbers):
+    # Return squares of the even numbers, e.g. [1, 2, 3, 4] -> [4, 16].
+    pass
+""",
+            tests="""assert even_squares([1, 2, 3, 4]) == [4, 16]
+assert even_squares([5, 7, 9]) == []
+assert even_squares([2, 4, 6]) == [4, 16, 36]
+print("All tests passed for even_squares")
+""",
+            hints=[
+                "An even number satisfies n % 2 == 0.",
+                "The expression for each item is n * n.",
+                "Put the if condition at the end of the comprehension.",
+            ],
+            sample_solution="""def even_squares(numbers):
+    return [n * n for n in numbers if n % 2 == 0]
+""",
+        ),
+        prompt_skill="Ask AI: 'Rewrite this loop as a list comprehension and tell me honestly whether it is more readable.'",
+    ),
+    Lesson(
+        id="15-pandas-data",
+        title="Data analysis with pandas: summarize real data",
+        level="Project",
+        time_minutes=50,
+        objectives=[
+            "Understand what a DataFrame is",
+            "Select columns and filter rows",
+            "Group rows and compute an average per group",
+            "See how pandas turns many lines of code into one",
+        ],
+        explanation="""
+**pandas** is the standard Python library for working with tables of data (spreadsheets, CSV files, query results). Its main object is the **DataFrame** — rows and columns, like a spreadsheet you control with code.
+
+```python
+import pandas as pd
+
+data = {
+    "category": ["fruit", "fruit", "veg"],
+    "value": [10, 20, 6],
+}
+df = pd.DataFrame(data)
+```
+
+Select one column (a **Series**):
+
+```python
+df["value"]          # 10, 20, 6
+df["value"].mean()   # 12.0
+```
+
+Filter rows with a condition:
+
+```python
+df[df["value"] > 8]  # only rows where value is above 8
+```
+
+The most powerful move is **group and aggregate** — answer "what is the average per category?" in one line:
+
+```python
+df.groupby("category")["value"].mean()
+# fruit    15.0
+# veg       6.0
+```
+
+That single line replaces a whole loop that keeps running totals and counts.
+
+> Note: the in-app code checker runs in a locked-down mode that does not include pandas. So your hands-on challenge below builds the *same* grouped-average by hand with plain Python — this shows you exactly what `groupby().mean()` does for you. Run the pandas snippets above in the live app or your own machine, where pandas is installed.
+""".strip(),
+        key_terms=["DataFrame", "Series", "column", "groupby", "aggregate", "mean"],
+        quiz=[
+            QuizQuestion(
+                prompt="What is a pandas DataFrame?",
+                options=[
+                    "A table of rows and columns",
+                    "A single number",
+                    "A Python error",
+                    "A web server",
+                ],
+                answer="A table of rows and columns",
+                explanation="A DataFrame is like a spreadsheet you control with code.",
+            ),
+            QuizQuestion(
+                prompt="Which pandas operation groups rows and computes an average per group?",
+                options=[
+                    "df.groupby(col).mean()",
+                    "df.delete()",
+                    "df.print()",
+                    "df.loop()",
+                ],
+                answer="df.groupby(col).mean()",
+                explanation="groupby splits rows into groups, then .mean() averages each group.",
+            ),
+            QuizQuestion(
+                prompt="Why summarize data instead of reading every row?",
+                options=[
+                    "Summaries reveal patterns quickly",
+                    "Rows are illegal",
+                    "It deletes the data",
+                    "It makes the file bigger",
+                ],
+                answer="Summaries reveal patterns quickly",
+                explanation="Averages, counts, and groups surface patterns you cannot see row by row.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Write `average_by_category(rows)` where `rows` is a list of dictionaries like `{\"category\": \"fruit\", \"value\": 10}`. Return a dictionary mapping each category to the average of its values. This is the plain-Python version of `df.groupby('category')['value'].mean()`.",
+            starter_code="""def average_by_category(rows):
+    # rows: list of {"category": str, "value": number}
+    # Return {category: average_value}.
+    pass
+""",
+            tests="""rows = [
+    {"category": "fruit", "value": 10},
+    {"category": "fruit", "value": 20},
+    {"category": "veg", "value": 6},
+]
+assert average_by_category(rows) == {"fruit": 15.0, "veg": 6.0}
+assert average_by_category([]) == {}
+assert average_by_category([{"category": "x", "value": 4}]) == {"x": 4.0}
+print("All tests passed for average_by_category")
+""",
+            hints=[
+                "Keep a running total and a count for each category.",
+                "Use dictionaries: totals[category] and counts[category].",
+                "At the end, divide each total by its count (a dict comprehension works well).",
+            ],
+            sample_solution="""def average_by_category(rows):
+    totals = {}
+    counts = {}
+    for row in rows:
+        category = row["category"]
+        totals[category] = totals.get(category, 0) + row["value"]
+        counts[category] = counts.get(category, 0) + 1
+    return {category: totals[category] / counts[category] for category in totals}
+""",
+        ),
+        prompt_skill="Ask AI: 'Given columns [list them] and the question [your question], which pandas groupby and aggregation should I use?'",
+    ),
 ]
 
 
