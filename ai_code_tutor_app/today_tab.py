@@ -148,7 +148,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
                 help_text="Choose rescue when starting feels hard. Rescue mode still counts.",
             ) or SESSION_LABELS[default_pace_index]
             saved_default_label = SESSION_LABELS[default_pace_index]
-            st.caption(f"Time I have today: choose 10, 30, or 45 minutes. Saved default: {saved_default_label}. Use Remember or the checkbox below to make a new default.")
+            st.caption(f"Time I have today: 10, 30, or 45 minutes · saved default: {saved_default_label}.")
     with toolbar_cols[1]:
         today_energy = st.selectbox("Energy", ENERGY_LEVELS, index=1, key=f"today_energy_{mission.day}")
     with toolbar_cols[2]:
@@ -222,7 +222,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
         active_lesson_id = active_option.lesson_id
         active_lesson_reason = active_option.reason
     active_lesson = get_lesson_by_id(active_lesson_id)
-    st.caption(f"Lesson for the time you have today: {active_lesson.title}. Why it fits: {active_lesson_reason} for a {selected_choice.minutes}-minute workout.")
+    st.caption(f"Lesson for the time you have today: {active_lesson.title} · {active_lesson_reason} · fits {selected_choice.minutes} min.")
 
     if not setup_locked:
         with st.expander("Preview how time changes the lesson", expanded=False):
@@ -532,12 +532,13 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
             st.subheader("Review queue")
             review_items = build_review_items(progress_data, LESSON_IDS)
             if review_items:
-                for item in review_items:
+                for item in review_items[:3]:
                     render_review_item(item)
+                st.caption("Full review, mixed quiz, and flashcards → **🔁 Review** tab.")
             else:
                 st.info("No weak spots logged yet. After a quiz miss or bug, add one mistake card.")
 
-            with st.expander("Mistake notebook", expanded=True):
+            with st.expander("Mistake notebook", expanded=False):
                 st.caption("Turn errors into tomorrow's warm-up instead of forgetting them.")
                 concept = st.text_input("Concept", key=f"mistake_concept_{mission.day}", placeholder="Example: if statements")
                 mistake = st.text_area("Mistake or confusion", key=f"mistake_text_{mission.day}", height=70, placeholder="Example: I forgot the colon after if.")
@@ -588,27 +589,34 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
     gym_metrics[2].metric("Streak", f"{progress_data.get('study_streak', 0)} days")
     gym_metrics[3].metric("XP", xp, level_for_xp(xp).split(" - ")[-1])
 
-    with st.expander("Daily-use smoothness check", expanded=False):
-        st.caption("Private QA for the daily habit loop: default time, stop/resume, one-rep focus mode, and proof habit.")
-        for check in daily_use_smoothness_checks(progress_data, mission.day, gym_blocks, preferred_minutes):
-            render_smoothness_check(check)
-        resume_report = resume_safety_report(existing_gym_session, gym_blocks)
-        if resume_report.can_resume:
-            st.caption(f"Resume check: {resume_report.saved_blocks} block(s) saved for {resume_report.saved_pace}; lesson {resume_report.saved_lesson_id or 'not locked'}.")
+    # Extras live in a compact two-column grid (was five stacked full-width
+    # rows) so the tab ends right after the workout instead of scrolling on.
+    st.caption("More: 🏡 Home has today's overview · 🔁 Review has quizzes & flashcards · 📈 Progress has your level and milestones.")
+    extras_left, extras_right = st.columns(2)
+    with extras_left:
+        with st.expander("Recent gym history", expanded=False):
+            st.caption(gym_history_summary(progress_data))
+            history_items = gym_session_history(progress_data, limit=5)
+            if history_items:
+                for history_item in history_items:
+                    render_gym_history_item(history_item)
+            else:
+                st.info("No history yet. Save your first proof card to start the log.")
 
-    with st.expander("Recent gym history", expanded=False):
-        st.caption(gym_history_summary(progress_data))
-        history_items = gym_session_history(progress_data, limit=5)
-        if history_items:
-            for history_item in history_items:
-                render_gym_history_item(history_item)
-        else:
-            st.info("No history yet. Save your first proof card to start the log.")
+        with st.expander("Daily-use smoothness check", expanded=False):
+            st.caption("Private QA for the daily habit loop: default time, stop/resume, one-rep focus mode, and proof habit.")
+            for check in daily_use_smoothness_checks(progress_data, mission.day, gym_blocks, preferred_minutes):
+                render_smoothness_check(check)
+            resume_report = resume_safety_report(existing_gym_session, gym_blocks)
+            if resume_report.can_resume:
+                st.caption(f"Resume check: {resume_report.saved_blocks} block(s) saved for {resume_report.saved_pace}; lesson {resume_report.saved_lesson_id or 'not locked'}.")
 
-    if mission.official_resource_ids:
-        with st.expander("Official AI side quest", expanded=False):
-            for resource in resources_for_ids(mission.official_resource_ids):
-                st.markdown(f"- [{resource.provider}: {resource.title}]({resource.url})")
+    with extras_right:
+        with st.expander("Badge shelf", expanded=False):
+            render_badge_shelf(progress_data)
+            st.caption("Levels, milestones, and the full dashboard → **📈 Progress** tab.")
 
-    with st.expander("Badge shelf", expanded=False):
-        render_badge_shelf(progress_data)
+        if mission.official_resource_ids:
+            with st.expander("Official AI side quest", expanded=False):
+                for resource in resources_for_ids(mission.official_resource_ids):
+                    st.markdown(f"- [{resource.provider}: {resource.title}]({resource.url})")
