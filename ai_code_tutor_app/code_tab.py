@@ -12,7 +12,7 @@ from code_runner import code_runner_enabled, run_python_with_tests
 
 
 def render_code_tab(lesson) -> None:
-    st.header(f"Code Lab: {lesson.title}")
+    st.header(f"💻 Code Lab: {lesson.title}")
     challenge = lesson.challenge
     st.write(challenge.prompt)
     st.caption("Try for 8-10 focused minutes before opening hints. The goal is practice, not perfection.")

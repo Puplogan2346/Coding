@@ -31,7 +31,7 @@ from ui_components import (
 
 
 def render_path_tab(progress_data: dict, profile_name: str) -> None:
-    st.header("Learning Path: Python basics to capstone")
+    st.header("📈 Learning Path: Python basics to capstone")
     st.caption("This is the finish line: milestones, proof, and graduation requirements for learning Python and general coding basics.")
 
     path_metrics = st.columns(4)

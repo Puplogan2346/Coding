@@ -27,6 +27,9 @@ def _select_lesson(lesson_id: str) -> None:
 
 def render_lesson_list(progress_data: dict, current_id: str) -> None:
     """Left column: Start/Continue CTA + a scrollable, clickable lesson list."""
+    # Marker for the mobile CSS in app.py: on narrow screens the columns stack,
+    # and this lets the open lesson's content render above the list.
+    st.markdown('<div class="lesson-list-marker"></div>', unsafe_allow_html=True)
     completed = set(progress_data.get("completed_lessons", []) or [])
 
     if not completed:

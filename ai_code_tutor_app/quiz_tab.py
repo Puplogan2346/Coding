@@ -12,7 +12,7 @@ from ui_components import render_score_badge
 
 
 def render_quiz_tab(progress_data: dict, progress_path, lesson) -> None:
-    st.header(f"Quiz: {lesson.title}")
+    st.header(f"✏️ Quiz: {lesson.title}")
     st.write("Answer all questions, then submit. You can retake quizzes anytime.")
 
     with st.form(key=f"quiz_form_{lesson.id}"):

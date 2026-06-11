@@ -32,6 +32,9 @@ def get_best_prompt_score(progress_data: dict) -> int:
 
 
 def render_dashboard_tab(progress_data: dict, lesson, next_lesson) -> None:
+    # Rendered below the Learning Path in the shared Progress tab, so it needs
+    # its own title to mark where the dashboard half begins.
+    st.header("📊 Dashboard")
     completed_lessons = set(progress_data.get("completed_lessons", []))
     completed_count = len(completed_lessons)
     if completed_count == 0:

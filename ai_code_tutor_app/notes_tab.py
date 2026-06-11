@@ -11,7 +11,7 @@ from progress import save_note, save_progress
 
 
 def render_notes_tab(progress_data: dict, progress_path, lesson) -> None:
-    st.header(f"Notes: {lesson.title}")
+    st.header(f"📝 Notes: {lesson.title}")
     current_note = progress_data.get("notes", {}).get(lesson.id, "")
     note_text = st.text_area(
         "Write your own notes, questions, and reflections",

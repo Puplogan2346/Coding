@@ -11,7 +11,7 @@ from ai_tutor import ai_is_configured, call_ai_tutor
 
 
 def render_ai_tab(lesson) -> None:
-    st.header("AI Tutor")
+    st.header("🤖 AI Tutor")
     st.write("Ask about the current lesson, your code, debugging, project ideas, or prompt quality.")
 
     ai_ready = ai_is_configured()

@@ -469,6 +469,19 @@ def apply_theme(low_stimulation: bool = False) -> None:
     }
     @media (max-width: 760px) {
         .block-container {padding-left: .9rem; padding-right: .9rem; padding-top: 1rem;}
+        /* Metric rows: wrap into a compact 3-up grid instead of one tall
+           stack / six squeezed slivers. */
+        div[data-testid="stHorizontalBlock"]:has(div[data-testid="stMetric"]) {
+            flex-wrap: wrap; flex-direction: row !important; gap: .5rem;
+        }
+        div[data-testid="stHorizontalBlock"]:has(div[data-testid="stMetric"]) > div[data-testid="stColumn"] {
+            min-width: 30% !important; flex: 1 1 30% !important; width: auto !important;
+        }
+        div[data-testid="stMetric"] {padding: .55rem .65rem;}
+        /* Lessons tab: phones stack the columns, which buried the open lesson
+           under the 21-button list. Show the lesson content first instead —
+           Prev/Next at its top still navigates; the full list follows below. */
+        div[data-testid="stHorizontalBlock"]:has(.lesson-list-marker) > div[data-testid="stColumn"]:first-child {order: 2;}
         .hero {padding: 1.25rem 1.1rem; border-radius: 22px;}
         .hero h1 {font-size: 2.15rem;}
         .hero p {font-size: 1rem;}

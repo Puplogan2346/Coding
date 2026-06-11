@@ -101,7 +101,7 @@ def open_mistake_cards(progress_data: dict) -> list[tuple[int, dict]]:
 
 def render_today_tab(progress_data: dict, progress_path) -> None:
     mission = next_mission(progress_data)
-    st.markdown("<h1 id=\"today-30-minute-coding-session\">Today\'s Coding Gym</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 id=\"today-30-minute-coding-session\">🏠 Today\'s Coding Gym</h1>", unsafe_allow_html=True)
     st.caption("A 30-minute coding session with one path: choose time, press Start or Resume, finish one rep, save proof, stop. Today: Daily Coding Gym.")
 
     with st.expander("Path and milestone details", expanded=False):

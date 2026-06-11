@@ -39,7 +39,7 @@ def open_parking_lot_items(progress_data: dict) -> list[tuple[int, dict]]:
 
 
 def render_focus_tab(progress_data: dict, progress_path, lesson) -> None:
-    st.header("Focus Coach: ADHD-friendly coding sessions")
+    st.header("🧘 Focus Coach: ADHD-friendly coding sessions")
     st.write(
         "This section turns coding into small, visible, low-pressure actions. "
         "It is not medical advice; it is a study-design layer for focus, memory, and momentum."

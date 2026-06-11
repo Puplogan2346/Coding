@@ -19,7 +19,7 @@ def _go_to_lesson(lesson_id: str) -> None:
 
 
 def render_review_tab(progress_data: dict, progress_path) -> None:
-    st.subheader("📊 Review — based on your progress")
+    st.subheader("🔁 Review — based on your progress")
     completed = set(progress_data.get("completed_lessons", []) or [])
     total = len(LESSONS)
     review_list = lessons_to_review(progress_data)

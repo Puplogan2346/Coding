@@ -13,7 +13,7 @@ from prompt_lab import improved_prompt_template, score_prompt
 
 
 def render_prompt_tab(progress_data: dict, progress_path, lesson) -> None:
-    st.header("Prompt Lab")
+    st.header("💡 Prompt Lab")
     st.write("Practice writing better prompts for coding, learning, debugging, and AI app building.")
 
     prompt_text = st.text_area(

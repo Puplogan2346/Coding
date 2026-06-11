@@ -34,7 +34,7 @@ def official_resource_note(progress_data: dict, resource_id: str) -> str:
 
 
 def render_official_ai_tab(progress_data: dict, progress_path) -> None:
-    st.header("Official AI Learning & Certifications")
+    st.header("🎓 Official AI Learning & Certifications")
     st.write(
         "Use this hub to track official provider lessons, docs, cohorts, and certifications while you learn Python. "
         "The app links out to official pages and saves your status here; it does not copy or republish their course content."

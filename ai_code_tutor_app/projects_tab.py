@@ -38,7 +38,7 @@ def render_project_summary(project, progress_data: dict) -> None:
 
 
 def render_projects_tab(progress_data: dict, progress_path) -> None:
-    st.header("Projects & capstone checkpoints")
+    st.header("🛠️ Projects & capstone checkpoints")
     st.write(
         "Projects make the lessons feel real. Each track is broken into tiny checkpoints so you can build without getting overwhelmed."
     )
