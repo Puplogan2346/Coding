@@ -64,16 +64,16 @@ def render_path_tab(progress_data: dict, profile_name: str) -> None:
             render_graduation_requirement(req)
         st.info(f"Next graduation action: {ready.next_action}")
 
-        with st.expander("What you should know by the end", expanded=True):
+        if st.toggle("What you should know by the end", value=True):
             for outcome in learning_outcomes():
                 st.write(f"- {outcome}")
 
-        with st.expander("Skill map", expanded=True):
+        if st.toggle("Skill map", value=True):
             st.caption("Each skill unlocks when the related lesson is complete. Use this when you want to see what the daily gym is actually teaching.")
             for skill_status in skill_statuses(progress_data):
                 render_skill_status(skill_status)
 
-        with st.expander("Graduation proof downloads", expanded=True):
+        if st.toggle("Graduation proof downloads", value=True):
             st.caption("These exports make the app feel complete: a private transcript, certificate preview, and backup pack you can keep outside the app.")
             st.download_button(
                 "Download certificate preview",
@@ -97,7 +97,7 @@ def render_path_tab(progress_data: dict, profile_name: str) -> None:
                 key="download_backup_path",
             )
 
-        with st.expander("Capstone proof idea", expanded=False):
+        if st.toggle("Capstone proof idea", value=False):
             st.write(
                 "A good final proof is a tiny app or script you can explain in 60 seconds: what problem it solves, "
                 "what inputs it uses, what output it gives, one bug you fixed, and one test or checklist that proves it works."

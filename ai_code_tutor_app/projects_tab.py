@@ -65,7 +65,7 @@ def render_projects_tab(progress_data: dict, progress_path) -> None:
     st.subheader("Milestones")
     saved_milestones = project_progress(progress_data, selected_project.id)
     for milestone in selected_project.milestones:
-        with st.expander(f"{milestone.title} - {saved_milestones.get(milestone.id, {}).get('status', 'Not started')}", expanded=saved_milestones.get(milestone.id, {}).get("status") in {None, "Not started", "In progress"}):
+        if st.toggle(f"{milestone.title} - {saved_milestones.get(milestone.id, {}).get('status', 'Not started')}", value=saved_milestones.get(milestone.id, {}).get("status") in {None, "Not started", "In progress"}):
             st.write(milestone.proof)
             current = saved_milestones.get(milestone.id, {})
             status_options = ["Not started", "In progress", "Completed", "Skipped"]

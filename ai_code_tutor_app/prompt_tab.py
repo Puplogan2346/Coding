@@ -50,7 +50,7 @@ def render_prompt_tab(progress_data: dict, progress_path, lesson) -> None:
         if not ai_ready:
             st.caption("The built-in rubric works offline. AI rewriting turns on after you add OPENAI_API_KEY.")
 
-    with st.expander("Prompt formula"):
+    if st.toggle("Prompt formula"):
         st.markdown(
             """
 Use this formula:

@@ -73,7 +73,7 @@ def render_official_ai_tab(progress_data: dict, progress_path) -> None:
             render_official_resource_summary(resource)
             st.markdown(f"[Open official page]({resource.url})")
 
-    with st.expander("Suggested milestone tracks", expanded=True):
+    if st.toggle("Suggested milestone tracks", value=True):
         for milestone in OFFICIAL_AI_MILESTONES:
             st.markdown(
                 f"""
@@ -120,7 +120,7 @@ def render_official_ai_tab(progress_data: dict, progress_path) -> None:
         status = official_resource_status(progress_data, resource.id)
         note = official_resource_note(progress_data, resource.id)
         expanded = resource.provider == "Gumloop" or status in {"Queued", "In progress"}
-        with st.expander(f"{resource.provider}: {resource.title} ({status})", expanded=expanded):
+        if st.toggle(f"{resource.provider}: {resource.title} ({status})", value=expanded):
             render_official_resource_summary(resource)
             st.markdown("**Skills:** " + ", ".join(f"`{tag}`" for tag in resource.tags))
             st.markdown(f"**Why it matters:** {resource.why_it_matters}")
@@ -146,7 +146,7 @@ def render_official_ai_tab(progress_data: dict, progress_path) -> None:
                 save_progress(progress_data, progress_path)
                 st.success("Official AI resource progress saved.")
 
-    with st.expander("Prompt template for course or certificate prep"):
+    if st.toggle("Prompt template for course or certificate prep"):
         st.code(
             """Role: You are my AI certification study coach.
 Goal: Help me prepare for [provider/resource] while I learn Python.

@@ -40,7 +40,7 @@ def render_dashboard_tab(progress_data: dict, lesson, next_lesson) -> None:
     if completed_count == 0:
         st.success("Welcome. This profile is brand new, so start with Lesson 1 and use the checklist below.")
 
-    with st.expander("Start here: your first 10 minutes", expanded=completed_count == 0):
+    if st.toggle("Start here: your first 10 minutes", value=completed_count == 0):
         intro_cols = st.columns(4)
         with intro_cols[0]:
             render_step(1, "Read", "Open the Lessons tab and read the current lesson once without memorizing.")
@@ -109,7 +109,7 @@ def render_dashboard_tab(progress_data: dict, lesson, next_lesson) -> None:
         render_card(level_for_xp(xp), f"{xp} XP earned from lessons, quizzes, prompts, daily missions, and AI resources.")
         render_level_progress(xp)
         st.caption(streak_microcopy(int(progress_data.get("study_streak", 0) or 0), int(progress_data.get("longest_streak", 0) or 0)))
-        with st.expander("Unlocked badges", expanded=False):
+        if st.toggle("Unlocked badges", value=False):
             render_badge_shelf(progress_data)
 
         ai_stats = official_resource_stats(progress_data)

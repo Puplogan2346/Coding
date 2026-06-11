@@ -97,6 +97,9 @@ class FakeStreamlit(types.ModuleType):
     def checkbox(self, label, value=False, **kwargs):
         return value
 
+    def toggle(self, label, value=False, **kwargs):
+        return value
+
     def slider(self, label, min_value=None, max_value=None, value=None, step=None, **kwargs):
         return value if value is not None else min_value
 

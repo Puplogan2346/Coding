@@ -104,7 +104,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
     st.markdown("<h1 id=\"today-30-minute-coding-session\">🏠 Today\'s Coding Gym</h1>", unsafe_allow_html=True)
     st.caption("A 30-minute coding session with one path: choose time, press Start or Resume, finish one rep, save proof, stop. Today: Daily Coding Gym.")
 
-    with st.expander("Path and milestone details", expanded=False):
+    if st.toggle("Path and milestone details", value=False):
         timeline_days = daily_timeline(progress_data, len(DAILY_PLAN))
         st.caption(plan_progress_sentence(progress_data))
         render_daily_timeline(timeline_days)
@@ -231,7 +231,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
     st.caption(f"Lesson for the time you have today: {active_lesson.title} · {active_lesson_reason} · fits {selected_choice.minutes} min.")
 
     if not setup_locked:
-        with st.expander("Preview how time changes the lesson", expanded=False):
+        if st.toggle("Preview how time changes the lesson", value=False):
             st.caption("This lets you change today's lesson before you start, based on whether you have 10, 30, or 45 minutes.")
             preview_cols = st.columns(3)
             for col, minutes, pace_label in zip(preview_cols, (10, 30, 45), SESSION_LABELS):
@@ -261,7 +261,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
     gym_blocks = gym_blocks_for_choice(selected_choice)
 
     if setup_locked and gym_active and not gym_saved:
-        with st.expander("Time changed since you paused?", expanded=False):
+        if st.toggle("Time changed since you paused?", value=False):
             st.caption("Use this only when you truly need to resize the saved workout. The app will keep your proof draft and compatible checked reps.")
             convert_pace = select_pace_control(
                 "Change this saved workout to",
@@ -364,7 +364,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
             )
             save_progress(progress_data, progress_path)
             st.rerun()
-        with st.expander("Preview today's workout", expanded=False):
+        if st.toggle("Preview today's workout", value=False):
             for block in gym_blocks:
                 render_gym_block(block, False)
     else:
@@ -444,7 +444,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
                     st.success("Draft saved. You can close the app and continue later from this exact workout.")
                     st.rerun()
 
-            with st.expander("Full One-screen checklist", expanded=False):
+            if st.toggle("Full One-screen checklist", value=False):
                 st.caption("Manual backup view. Use this when you want to check multiple blocks at once.")
                 for block in gym_blocks:
                     current_value = bool(visible_steps.get(block.id, False))
@@ -465,7 +465,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
                 st.session_state.selected_lesson_id = active_lesson_id
                 st.rerun()
 
-            with st.expander("Full mission recipe", expanded=False):
+            if st.toggle("Full mission recipe", value=False):
                 render_daily_mission_card(mission)
                 render_time_blocks(mission.blocks)
 
@@ -555,7 +555,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
             else:
                 st.info("No weak spots logged yet. After a quiz miss or bug, add one mistake card.")
 
-            with st.expander("Mistake notebook", expanded=False):
+            if st.toggle("Mistake notebook", value=False):
                 st.caption("Turn errors into tomorrow's warm-up instead of forgetting them.")
                 concept = st.text_input("Concept", key=f"mistake_concept_{mission.day}", placeholder="Example: if statements")
                 mistake = st.text_area("Mistake or confusion", key=f"mistake_text_{mission.day}", height=70, placeholder="Example: I forgot the colon after if.")
@@ -587,7 +587,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
             render_done_zone(gym_percent, gym_saved)
             mode = recommended_focus_mode(today_energy, selected_choice.minutes)
             st.caption(f"Recommended focus mode: {mode.title}")
-            with st.expander("Show focus blocks", expanded=False):
+            if st.toggle("Show focus blocks", value=False):
                 render_focus_blocks(focus_blocks(mode.minutes, today_energy))
 
             quick_thought = st.text_input("Parking lot thought", key=f"today_parking_{mission.day}", placeholder="Example: research laptops later")
@@ -611,7 +611,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
     st.caption("More: 🏡 Home has today's overview · 🔁 Review has quizzes & flashcards · 📈 Progress has your level and milestones.")
     extras_left, extras_right = st.columns(2)
     with extras_left:
-        with st.expander("Recent gym history", expanded=False):
+        if st.toggle("Recent gym history", value=False):
             st.caption(gym_history_summary(progress_data))
             history_items = gym_session_history(progress_data, limit=5)
             if history_items:
@@ -620,7 +620,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
             else:
                 st.info("No history yet. Save your first proof card to start the log.")
 
-        with st.expander("Daily-use smoothness check", expanded=False):
+        if st.toggle("Daily-use smoothness check", value=False):
             st.caption("Private QA for the daily habit loop: default time, stop/resume, one-rep focus mode, and proof habit.")
             for check in daily_use_smoothness_checks(progress_data, mission.day, gym_blocks, preferred_minutes):
                 render_smoothness_check(check)
@@ -629,11 +629,11 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
                 st.caption(f"Resume check: {resume_report.saved_blocks} block(s) saved for {resume_report.saved_pace}; lesson {resume_report.saved_lesson_id or 'not locked'}.")
 
     with extras_right:
-        with st.expander("Badge shelf", expanded=False):
+        if st.toggle("Badge shelf", value=False):
             render_badge_shelf(progress_data)
             st.caption("Levels, milestones, and the full dashboard → **📈 Progress** tab.")
 
         if mission.official_resource_ids:
-            with st.expander("Official AI side quest", expanded=False):
+            if st.toggle("Official AI side quest", value=False):
                 for resource in resources_for_ids(mission.official_resource_ids):
                     st.markdown(f"- [{resource.provider}: {resource.title}]({resource.url})")

@@ -98,7 +98,7 @@ def render_focus_tab(progress_data: dict, progress_path, lesson) -> None:
         st.caption(f"This plan totals {total_focus_minutes(blocks)} minutes.")
         render_focus_blocks(blocks)
 
-        with st.expander("Body-double script"):
+        if st.toggle("Body-double script"):
             for line in body_double_script(next_mission(progress_data).title):
                 st.write(f"- {line}")
 

@@ -862,7 +862,7 @@ with home_tab:
 
 with today_tab:
     render_today_tab(progress_data, progress_path)
-    with st.expander("🧘 Focus coach", expanded=False):
+    if st.toggle("🧘 Focus coach", value=False, key="tg_focus_coach"):
         render_focus_tab(progress_data, progress_path, lesson)
 
 with lessons_tab:
@@ -892,21 +892,38 @@ with progress_tab:
     render_dashboard_tab(progress_data, lesson, next_lesson)
 
 with more_tab:
-    with st.expander("📖 Glossary (all key terms)", expanded=False):
+    # One tile switcher instead of five stacked dropdown-style rows: tap a
+    # tile, see that section.
+    if hasattr(st, "pills"):
+        more_panel = st.pills(
+            "More sections",
+            ["📖 Glossary", "🎓 AI Certs", "💡 Prompt Lab", "📝 Notes", "🚀 Deploy"],
+            selection_mode="single",
+            default="📖 Glossary",
+            key="more_panel",
+            label_visibility="collapsed",
+            width="stretch",
+        ) or "📖 Glossary"
+    else:
+        more_panel = st.radio(
+            "More sections",
+            ["📖 Glossary", "🎓 AI Certs", "💡 Prompt Lab", "📝 Notes", "🚀 Deploy"],
+            index=0, horizontal=True, key="more_panel",
+        )
+    if more_panel == "📖 Glossary":
         render_glossary_tab()
-    with st.expander("🎓 AI certifications & official resources", expanded=False):
+    elif more_panel == "🎓 AI Certs":
         render_official_ai_tab(progress_data, progress_path)
-    with st.expander("💡 Prompt lab", expanded=False):
+    elif more_panel == "💡 Prompt Lab":
         render_prompt_tab(progress_data, progress_path, lesson)
-    with st.expander("📝 Notes", expanded=False):
+    elif more_panel == "📝 Notes":
         render_notes_tab(progress_data, progress_path, lesson)
-    with st.expander("🚀 Deploy & share", expanded=False):
+    else:
         render_deploy_tab(progress_path)
 
 st.divider()
-# Hide dev-facing storage details behind an expander — the file path and
-# multi-user warning are not useful to learners on the main surface.
-with st.expander("Where is my progress saved?", expanded=False):
+# Dev-facing storage details stay off the main surface behind an iOS toggle.
+if st.toggle("Where is my progress saved?", value=False, key="tg_storage_info"):
     st.caption(
         f"Progress for profile `{profile_name}` is saved at `{progress_path}`. "
         "For a serious multi-user app, replace file storage with a database and add authentication."
