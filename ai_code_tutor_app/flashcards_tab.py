@@ -55,6 +55,10 @@ def render_flashcards_tab(progress_data: dict, progress_path) -> None:
 
     if ahead:
         st.caption("Studying ahead of schedule. Progress still counts.")
+        if st.button("Back to due cards only", key="flash_exit_ahead"):
+            st.session_state.flash_ahead = False
+            _reset_card()
+            st.rerun()
 
     current = st.session_state.get("flash_current")
     if current not in queue:

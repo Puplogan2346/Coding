@@ -39,11 +39,12 @@ No API key is required — the AI tutor is optional. Add `OPENAI_API_KEY` (as a 
 
 ## Navigation
 
-A single, flat row of seven tabs (no nested menus, no lesson dropdown):
+A single, flat row of eight tabs (no nested menus, no lesson dropdown):
 
 - **🏠 Today** — the daily coding gym (Start Today → one rep at a time → save proof). Focus Coach lives here in an expander.
 - **📚 Lessons** — a clickable list of all 21 lessons with a "Start Lesson 1 / Continue" button; the open lesson's content shows below.
 - **✏️ Practice** — the current lesson's quiz and Code Lab challenge.
+- **🔁 Review** — progress-based recommendations, a mixed review quiz, and spaced-repetition flashcards over the glossary.
 - **🛠️ Projects** — project tracks and capstone checkpoints.
 - **🤖 AI Tutor** — optional AI chat about the current lesson.
 - **📈 Progress** — learning path, milestones, graduation checklist, and your dashboard.

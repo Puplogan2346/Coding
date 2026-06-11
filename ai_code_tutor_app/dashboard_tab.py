@@ -97,7 +97,7 @@ def render_dashboard_tab(progress_data: dict, lesson, next_lesson) -> None:
 1. Start in the Today tab and follow the 30-minute mission.
 2. Read, quiz, code, then reflect before moving on.
 3. Use review days to revisit older lessons from memory.
-4. Use Prompt Lab to ask AI for hints, tests, and examples.
+4. Use the Review tab's mixed quiz and flashcards to keep old lessons fresh.
 5. Save a tiny win each day so the app becomes your learning journal.
 """.strip()
         )
@@ -119,4 +119,4 @@ def render_dashboard_tab(progress_data: dict, lesson, next_lesson) -> None:
                 f"{ai_stats['total']} curated official resources."
             ),
         )
-        st.info("While the GitHub repo is private, you can still run tests through GitHub Actions. Do not add API keys to code files.")
+        st.info("Keep API keys out of code files — use environment variables or your platform's secrets panel.")

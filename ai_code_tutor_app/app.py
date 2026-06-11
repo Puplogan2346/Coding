@@ -667,7 +667,7 @@ st.markdown(
 <a class="skip-link" href="#today-30-minute-coding-session">Skip to today's session</a>
 <div class="compact-hero">
     <h1>AI Code Tutor</h1>
-    <p>Daily coding gym for Python basics. Start today, do one rep at a time, save proof, and stop.</p>
+    <p>Daily coding gym for Python — from your first print() to data, APIs, and a capstone. One rep at a time, save proof, and stop.</p>
     <div class="hero-meta">
         <span class="hero-stat">Day {h(hero_mission.day)}: {h(hero_mission.title)}</span>
         <span class="hero-stat">Next: {h(next_lesson.title)}</span>
@@ -723,10 +723,10 @@ with lessons_tab:
     render_lesson_tab(progress_data, progress_path, lesson, lesson_complete)
 
 with practice_tab:
-    st.subheader("📝 Quiz")
+    # quiz_tab and code_tab render their own "Quiz: <lesson>" / "Code Lab:
+    # <lesson>" headers, so no extra subheaders here (avoids double headings).
     render_quiz_tab(progress_data, progress_path, lesson)
     st.divider()
-    st.subheader("💻 Code Lab")
     render_code_tab(lesson)
 
 with review_tab:
