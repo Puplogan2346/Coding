@@ -87,30 +87,76 @@ def apply_theme(low_stimulation: bool = False) -> None:
     .stTabs [data-baseweb="tab"] {border-radius: 10px; padding: .42rem .9rem; font-weight: 600; color: #1d1d1f;}
     .stTabs [aria-selected="true"] {background: #ffffff; box-shadow: 0 1px 4px rgba(0, 0, 0, .12);}
     .stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] {display: none;}
-    /* Buttons: filled iOS-blue primary, white hairline secondary */
+    /* Buttons: bubbly pills with a soft lift on hover and a squish on press */
     .stButton > button {
         border: 1px solid rgba(0, 0, 0, .10);
         background: #ffffff;
         color: #1d1d1f;
         box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
-        transition: background .15s ease, color .15s ease, border-color .15s ease;
+        transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease,
+                    background .15s ease, color .15s ease, border-color .15s ease;
     }
-    .stButton > button:hover {border-color: rgba(0, 113, 227, .45); color: #0071e3;}
-    .stButton > button[kind="primary"] {background: #0071e3; border-color: #0071e3; color: #ffffff;}
-    .stButton > button[kind="primary"]:hover {background: #0077ed; border-color: #0077ed; color: #ffffff;}
-    /* Expanders and forms as white cards */
+    .stButton > button:hover {
+        border-color: rgba(0, 113, 227, .45);
+        color: #0071e3;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
+    }
+    .stButton > button:active {transform: translateY(0) scale(.97);}
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #0071e3, #7c3aed);
+        border-color: transparent;
+        color: #ffffff;
+    }
+    .stButton > button[kind="primary"]:hover {
+        background: linear-gradient(135deg, #0077ed, #8b5cf6);
+        color: #ffffff;
+        box-shadow: 0 8px 20px rgba(0, 113, 227, .28);
+    }
+    /* Expanders and forms as bubbly white cards that lift on hover */
     div[data-testid="stExpander"] {
         background: #ffffff;
         border: 1px solid rgba(0, 0, 0, .07);
-        border-radius: 16px;
+        border-radius: 20px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, .03);
         overflow: hidden;
+        transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
-    div[data-testid="stExpander"] summary {font-weight: 600;}
-    div[data-testid="stForm"] {background: #ffffff; border: 1px solid rgba(0, 0, 0, .07); border-radius: 18px;}
-    /* Inputs and selects: 12px radius, quiet borders */
-    div[data-baseweb="select"] > div {border-radius: 12px !important;}
-    div[data-testid="stTextInput"] input, div[data-testid="stTextArea"] textarea {border-radius: 12px !important;}
+    div[data-testid="stExpander"]:hover {
+        border-color: rgba(0, 113, 227, .28);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, .06);
+        transform: translateY(-1px);
+    }
+    div[data-testid="stExpander"] summary {font-weight: 600; padding: .85rem 1rem;}
+    div[data-testid="stForm"] {background: #ffffff; border: 1px solid rgba(0, 0, 0, .07); border-radius: 20px;}
+    /* Inputs and selects: rounded, quiet borders */
+    div[data-baseweb="select"] > div {border-radius: 14px !important;}
+    div[data-testid="stTextInput"] input, div[data-testid="stTextArea"] textarea {border-radius: 14px !important;}
+    /* Progress bars: party gradient in a rounded track */
+    div[data-testid="stProgress"] > div > div {border-radius: 999px; background: rgba(120, 120, 128, .14);}
+    div[data-testid="stProgress"] > div > div > div {
+        border-radius: 999px;
+        background: linear-gradient(90deg, #0071e3, #7c3aed, #ec4899);
+    }
+    /* Cards and metrics get the same gentle lift */
+    .card, .mini-card, div[data-testid="stMetric"], .resource-card, .project-card, .milestone-card {
+        transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .card:hover, .mini-card:hover, div[data-testid="stMetric"]:hover,
+    .resource-card:hover, .project-card:hover, .milestone-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, .08);
+    }
+    /* Partiful-style gradient headline on the hero */
+    .compact-hero h1, .hero h1 {
+        background: linear-gradient(90deg, #0071e3 0%, #7c3aed 55%, #ec4899 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: #7c3aed;
+        width: fit-content;
+    }
+    html {scroll-behavior: smooth;}
     /* ---- end design system ---- */
 
     .block-container {padding-top: 1.6rem; padding-bottom: 3rem; max-width: 1180px;}
@@ -119,7 +165,7 @@ def apply_theme(low_stimulation: bool = False) -> None:
     .hero {
         padding: 2.1rem 2.2rem;
         border-radius: 28px;
-        background: linear-gradient(160deg, #ffffff 30%, rgba(0, 113, 227, .08));
+        background: linear-gradient(160deg, #ffffff 35%, rgba(0, 113, 227, .07) 70%, rgba(236, 72, 153, .07));
         border: 1px solid rgba(0, 0, 0, .07);
         box-shadow: 0 1px 3px rgba(0, 0, 0, .03);
         margin-bottom: 1.25rem;
@@ -184,7 +230,7 @@ def apply_theme(low_stimulation: bool = False) -> None:
     .compact-hero {
         padding: 1.15rem 1.35rem;
         border-radius: 22px;
-        background: linear-gradient(160deg, #ffffff 30%, rgba(0, 113, 227, .08));
+        background: linear-gradient(160deg, #ffffff 35%, rgba(0, 113, 227, .07) 70%, rgba(236, 72, 153, .07));
         border: 1px solid rgba(0, 0, 0, .07);
         box-shadow: 0 1px 3px rgba(0, 0, 0, .03);
         margin-bottom: .65rem;
