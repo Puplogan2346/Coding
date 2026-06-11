@@ -70,6 +70,7 @@ def test_app_exposes_today_tab_and_daily_training_imports():
     # checked across the whole wired surface.
     app_source = APP_PATH.read_text(encoding="utf-8")
     for block in (
+        "with home_tab:",
         "with today_tab:",
         "with lessons_tab:",
         "with practice_tab:",
@@ -81,6 +82,7 @@ def test_app_exposes_today_tab_and_daily_training_imports():
         assert block in app_source, f"missing flat-nav block: {block}"
     # Every destination still calls its per-tab renderer from the flat layout.
     for call in (
+        "render_home_tab(",
         "render_today_tab(",
         "render_focus_tab(",
         "render_lesson_tab(",

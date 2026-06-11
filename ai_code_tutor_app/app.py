@@ -50,6 +50,7 @@ from deploy_tab import render_deploy_tab
 from glossary_tab import render_glossary_tab
 from review_tab import render_review_tab
 from flashcards_tab import render_flashcards_tab
+from home_tab import render_home_tab
 
 
 st.set_page_config(
@@ -801,6 +802,7 @@ if completed_count == 0 and daily_done == 0:
 # Coach, AI Certs, Prompt Lab, Notes, Deploy) move into expanders so every
 # feature is still reachable without crowding the top bar.
 (
+    home_tab,
     today_tab,
     lessons_tab,
     practice_tab,
@@ -811,6 +813,7 @@ if completed_count == 0 and daily_done == 0:
     more_tab,
 ) = st.tabs(
     [
+        "🏡 Home",
         "🏠 Today",
         "📚 Lessons",
         "✏️ Practice",
@@ -821,6 +824,9 @@ if completed_count == 0 and daily_done == 0:
         "⋯ More",
     ]
 )
+
+with home_tab:
+    render_home_tab(progress_data)
 
 with today_tab:
     render_today_tab(progress_data, progress_path)
