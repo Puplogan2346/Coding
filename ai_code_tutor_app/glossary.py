@@ -145,6 +145,24 @@ GLOSSARY: dict[str, str] = {
     "split": 'A string method that breaks text into a list, e.g. "a b".split().',
     "frequency": "How many times something occurs.",
     "string methods": "Built-in actions on text, like .lower(), .split(), and .replace().",
+    # Lesson 22 — AI agents
+    "agent": "An AI system that pursues a goal by planning, using tools, and reacting to results.",
+    "agent loop": "The cycle an agent repeats: plan a step, act with a tool, observe the result.",
+    "tool": "An action an agent can take beyond text, like running code or editing a file.",
+    "autonomy": "How much an agent does on its own before checking in with a human.",
+    "context window": "Everything the model can currently see — its working memory for the task.",
+    # Lesson 23 — Directing agents
+    "spec": "A precise work order: the task, scope, constraints, and how to verify it.",
+    "context engineering": "Choosing exactly what an agent sees so it acts on the right information.",
+    "model selection": "Picking the right model for the job — fast and cheap vs. slow and deep.",
+    "system prompt": "Standing instructions that shape how a model behaves across a whole session.",
+    "agentic engineering": "The discipline of building and directing AI agents that do real work.",
+    # Lesson 24 — Agentic workflows
+    "verification loop": "Ending work with real checks — run the tests, read the output, fix, repeat.",
+    "guardrail": "An automatic check (tests, linters, types) that catches mistakes before they ship.",
+    "diff": "The exact set of line-by-line changes made to code; what you review.",
+    "code review": "Reading a change to judge correctness and quality before accepting it.",
+    "ship": "To finish and deliver a change so people can actually use it.",
 }
 
 

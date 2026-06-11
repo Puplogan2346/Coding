@@ -250,6 +250,51 @@ else:
 ```
 
 Always check the status code before reading the JSON body.''',
+    "22-ai-agents": '''Trace one pass of the agent loop on a real bug fix:
+
+```text
+Goal: the date test is failing.
+
+1. PLAN    -> "Read the failing test, then the function it tests."
+2. ACT     -> tool: run pytest tests/test_dates.py
+3. OBSERVE -> "AssertionError: expected 2024, got 1924"
+4. PLAN    -> "Two-digit years map to 19xx; change the pivot to 20xx."
+5. ACT     -> tool: edit utils.py
+6. ACT     -> tool: run pytest tests/test_dates.py
+7. OBSERVE -> "1 passed" -> done.
+```
+
+Every step is either thinking (plan), a tool call (act), or reading real output (observe) — no step trusts a guess when a check is available.''',
+    "23-directing-agents": '''The same request as a wish vs. a spec:
+
+```text
+Wish:  "Clean up my date code."
+
+Spec:  Task: make parse_dates() map two-digit years to 20xx.
+       Context: utils.py (parse_dates), failing test output pasted below.
+       Constraints: keep the function signature; stdlib only.
+       Verify: run pytest tests/test_dates.py and show the output.
+```
+
+The wish invites the agent to guess at scope. The spec pins the task, the exact files, the rules, and the proof required — any competent agent (or human) can execute it without follow-up questions.''',
+    "24-agentic-workflows": '''A verification step you can attach to any agent task:
+
+```python
+def verify_checks(checks):
+    failures = [c["name"] for c in checks if not c["passed"]]
+    return {"passed": len(checks) - len(failures),
+            "failed": len(failures),
+            "ok": not failures,
+            "failures": failures}
+
+report = verify_checks([
+    {"name": "tests", "passed": True},
+    {"name": "lint", "passed": False},
+])
+print(report["ok"], report["failures"])   # False ['lint']
+```
+
+The workflow rule: an agent's task is not "done" until a report like this says ok=True — and you read the diff yourself before shipping.''',
     "21-capstone-text-analyzer": '''Count words, then find the most common one:
 
 ```python
@@ -290,6 +335,9 @@ COMMON_MISTAKES: dict[str, str] = {
     "19-pytest-testing": '''Naming test functions without the `test_` prefix. pytest only discovers and runs functions that start with `test_`.''',
     "20-web-apis": '''Reading `response.json()` without checking the status code first. A 404 or 500 has no useful data and may error.''',
     "21-capstone-text-analyzer": '''Forgetting to normalize case. Without `.lower()`, "The" and "the" are counted as two different words.''',
+    "22-ai-agents": '''Autopilot mode: letting an agent run multiple steps without ever reading the observed results. If step 2 silently failed, every step after it is built on a wrong assumption — check the output, not the confidence.''',
+    "23-directing-agents": '''Context dumping: pasting the entire project "so the agent has everything." The important file drowns in noise. Curate context like evidence — the relevant files, the failing output, nothing else.''',
+    "24-agentic-workflows": '''Accepting "all tests pass" as a claim instead of an artifact. Make the agent show the actual test run — and on a big diff, ask it to split the change into smaller reviewable pieces.''',
 }
 
 

@@ -1992,6 +1992,282 @@ print("All tests passed for word_frequencies")
         ),
         prompt_skill="Ask AI: 'Help me extend my word-frequency analyzer to show the top 3 words, and suggest one edge case I should test.'",
     ),
+    Lesson(
+        id="22-ai-agents",
+        title="AI coding agents: how they plan, act, and verify",
+        level="Intermediate",
+        time_minutes=40,
+        objectives=[
+            "Understand what makes an AI system an agent",
+            "Trace the agent loop: plan, act, observe, repeat",
+            "See how tools turn a chatbot into a worker",
+            "Know why the context window is the agent's working memory",
+        ],
+        explanation="""
+A chatbot answers questions. An **agent** *does work*: it takes a goal, makes a plan, uses **tools** (run code, edit files, search, call APIs), looks at the results, and keeps going until the job is done or it gets stuck.
+
+That cycle is the **agent loop**:
+
+1. **Plan** — break the goal into the next concrete step.
+2. **Act** — use a tool (e.g. run the tests, edit a file).
+3. **Observe** — read what actually happened (output, errors).
+4. **Repeat** — adjust the plan and take the next step.
+
+You already live this loop when you debug: try something, read the error, adjust. Agents automate the cycle.
+
+Two ideas make agents click:
+
+- **Tools are the hands.** A model alone can only produce text. Give it a tool like "run this code" and its claims become checkable actions. This is why agentic coding tools (Claude Code, Cursor, and similar) feel different from chat: they execute, observe, and self-correct.
+- **The context window is the working memory.** An agent only "knows" what is in its context: your instructions, the files it has read, the tool results so far. If a key fact is not in context, the agent acts without it. Managing what the agent can see is half the job.
+
+Agents are powerful but not magic: they follow their loop confidently even when a step went wrong. That is why the next two lessons cover directing agents well and verifying their work.
+
+Sites like agenticengineer.com (linked in the AI Certs hub) teach this as its own discipline — worth exploring after this arc.
+""".strip(),
+        key_terms=["agent", "agent loop", "tool", "autonomy", "context window"],
+        quiz=[
+            QuizQuestion(
+                prompt="What turns an AI chatbot into an agent?",
+                options=[
+                    "A bigger font",
+                    "Tools plus a loop: plan, act, observe, repeat",
+                    "Faster typing",
+                    "More emojis",
+                ],
+                answer="Tools plus a loop: plan, act, observe, repeat",
+                explanation="Agents act through tools and iterate on the results instead of only generating text.",
+            ),
+            QuizQuestion(
+                prompt="What is the context window?",
+                options=[
+                    "The agent's working memory — everything it can currently see",
+                    "A type of for loop",
+                    "The computer screen",
+                    "A Python error",
+                ],
+                answer="The agent's working memory — everything it can currently see",
+                explanation="An agent only knows what is in context: instructions, files read, and tool results.",
+            ),
+            QuizQuestion(
+                prompt="In the agent loop, what should happen right after acting with a tool?",
+                options=[
+                    "Observe the actual result before planning the next step",
+                    "Declare the job finished",
+                    "Delete the plan",
+                    "Restart the computer",
+                ],
+                answer="Observe the actual result before planning the next step",
+                explanation="Reading the real output (including errors) is what lets the agent self-correct.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Simulate a tiny agent loop. Write `run_plan(steps)` where `steps` is a list of dicts like `{\"action\": \"run tests\", \"ok\": True}`. Execute steps in order, collecting the names of successful actions. Stop at the first failure. Return `{\"completed\": [...], \"status\": \"done\"}` if everything succeeded, or `{\"completed\": [...], \"status\": \"stopped at <action>\"}` for the first failing action.",
+            starter_code="""def run_plan(steps):
+    # Execute steps in order; stop at the first failure.
+    pass
+""",
+            tests="""assert run_plan([{"action": "read file", "ok": True}, {"action": "edit", "ok": True}]) == {"completed": ["read file", "edit"], "status": "done"}
+assert run_plan([{"action": "read file", "ok": True}, {"action": "run tests", "ok": False}, {"action": "ship", "ok": True}]) == {"completed": ["read file"], "status": "stopped at run tests"}
+assert run_plan([]) == {"completed": [], "status": "done"}
+print("All tests passed for run_plan")
+""",
+            hints=[
+                "Loop over the steps and append each successful action to a list.",
+                "When a step has ok=False, return immediately with the stopped status.",
+                "Use an f-string for 'stopped at <action>'.",
+            ],
+            sample_solution="""def run_plan(steps):
+    completed = []
+    for step in steps:
+        if not step["ok"]:
+            return {"completed": completed, "status": f"stopped at {step['action']}"}
+        completed.append(step["action"])
+    return {"completed": completed, "status": "done"}
+""",
+        ),
+        prompt_skill="Ask an agentic tool to 'plan first': 'List the steps you will take and which files you will touch before changing anything.'",
+    ),
+    Lesson(
+        id="23-directing-agents",
+        title="Directing AI agents: context, prompt, and model",
+        level="Intermediate",
+        time_minutes=40,
+        objectives=[
+            "Shift from writing every line to directing the work",
+            "Control the big three: context, prompt, and model",
+            "Write a spec an agent can execute without guessing",
+            "Choose when a fast model vs a deep model fits the job",
+        ],
+        explanation="""
+When an agent writes the code, *your* output becomes the instructions. As IndyDevDan of agenticengineer.com puts it, "The prompt is the new fundamental unit of knowledge work." Directing agents well comes down to the big three:
+
+**1. Context — what the agent can see.**
+Give it the files, errors, and constraints that matter, and leave out noise. Too little context and it guesses; too much and the important parts drown. Saying *"the bug is in `parse_dates()` in `utils.py`, here is the failing test output"* beats pasting the whole project.
+
+**2. Prompt — the spec.**
+A good agent prompt reads like a work order, not a wish:
+
+```text
+Task: fix the date parser so two-digit years map to 20xx.
+Files: utils.py (parse_dates), tests/test_utils.py.
+Constraints: do not change the public function signature.
+Verify: run pytest tests/test_utils.py and show the output.
+```
+
+Task, scope, constraints, and a verification step. Vague specs produce confident wrong answers; precise specs produce checkable work.
+
+**3. Model — the worker you assign.**
+Models trade speed and cost against depth. A quick rename or summary suits a fast, cheap model; a tricky refactor or design decision deserves the strongest one. Assigning the right "worker" to the job is an engineering decision, just like choosing a data structure.
+
+The skill that ties it together is writing things down: specs and plans you can reuse, refine, and hand to any agent. Treat your best prompts like code — save them, improve them, version them.
+""".strip(),
+        key_terms=["spec", "context engineering", "model selection", "system prompt", "agentic engineering"],
+        quiz=[
+            QuizQuestion(
+                prompt="What are the 'big three' levers when directing an AI agent?",
+                options=[
+                    "Context, prompt, and model",
+                    "Font, color, and theme",
+                    "RAM, CPU, and disk",
+                    "Tabs, spaces, and semicolons",
+                ],
+                answer="Context, prompt, and model",
+                explanation="What the agent sees, what you ask, and which model does the work decide the outcome.",
+            ),
+            QuizQuestion(
+                prompt="Which prompt is the better work order for an agent?",
+                options=[
+                    "'Task: fix parse_dates in utils.py; do not change its signature; verify with pytest.'",
+                    "'Make the code better.'",
+                    "'Do your best!'",
+                    "'Fix everything.'",
+                ],
+                answer="'Task: fix parse_dates in utils.py; do not change its signature; verify with pytest.'",
+                explanation="Task, scope, constraints, and verification make the work checkable instead of guesswork.",
+            ),
+            QuizQuestion(
+                prompt="When does a slower, stronger model earn its cost?",
+                options=[
+                    "On hard work like tricky refactors and design decisions",
+                    "Never",
+                    "Only for renaming variables",
+                    "Only on weekends",
+                ],
+                answer="On hard work like tricky refactors and design decisions",
+                explanation="Match the model to the job: fast models for quick tasks, deep models for hard ones.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Write `build_spec(task, context, constraints)` that returns a work-order string an agent can follow, formatted as three lines exactly: `Task: <task>`, `Context: <context>`, `Constraints: <constraints>` — each on its own line, joined with newlines.",
+            starter_code="""def build_spec(task, context, constraints):
+    # Return a three-line spec: Task / Context / Constraints.
+    pass
+""",
+            tests="""spec = build_spec("fix the bug", "utils.py line 40", "no new dependencies")
+lines = spec.split("\\n")
+assert lines == ["Task: fix the bug", "Context: utils.py line 40", "Constraints: no new dependencies"]
+assert build_spec("a", "b", "c") == "Task: a\\nContext: b\\nConstraints: c"
+print("All tests passed for build_spec")
+""",
+            hints=[
+                "Build each labeled line with an f-string.",
+                "Join the three lines with the newline character \\n.",
+                "Match the labels exactly: Task:, Context:, Constraints:.",
+            ],
+            sample_solution="""def build_spec(task, context, constraints):
+    return f"Task: {task}\\nContext: {context}\\nConstraints: {constraints}"
+""",
+        ),
+        prompt_skill="Before any big agent task, write the spec first: Task, Context (files/errors), Constraints, and how the agent should Verify.",
+    ),
+    Lesson(
+        id="24-agentic-workflows",
+        title="Agentic workflows: verify, review, and ship",
+        level="Project",
+        time_minutes=45,
+        objectives=[
+            "Close the loop: make agents prove their work",
+            "Use tests and checks as guardrails for AI-written code",
+            "Review small diffs instead of trusting big ones",
+            "Climb the ladder from augmenting to automating",
+        ],
+        explanation="""
+The difference between an AI demo and a dependable workflow is **verification**. Never grade AI-written code by how confident it sounds — grade it by checks that actually ran.
+
+**Close the loop.** The strongest agent workflows end with proof: run the tests, execute the script, show the output. If an agent says "done," the next question is always *"show me the passing run."* Agents can read their own failures and fix them — but only when the workflow demands it.
+
+**Guardrails make speed safe.** Tests, linters, and type checks are no longer chores; they are the rails that let an agent move fast without breaking things. A codebase with good tests is a codebase an agent can safely improve. (You wrote tests in Lesson 19 — this is where that investment pays off.)
+
+**Review small diffs.** A 30-line change you read and understand beats a 600-line change you accept on faith. Ask agents for small, focused changes, read them, and keep the right to say no. You are the senior engineer in the loop; the agent is fast, not accountable.
+
+**The ladder.** Start by *augmenting* yourself — the agent helps while you steer each step. As your specs, guardrails, and review habits get strong, you can *automate* — trusting agents with whole tasks because the verification net will catch failures. Climbing that ladder safely is the craft (courses like Tactical Agentic Coding on agenticengineer.com go deep here).
+
+The mindset shift of this whole arc: your value moves from typing code to **defining work precisely and verifying it ruthlessly**.
+""".strip(),
+        key_terms=["verification loop", "guardrail", "diff", "code review", "ship"],
+        quiz=[
+            QuizQuestion(
+                prompt="How should you judge AI-written code?",
+                options=[
+                    "By checks that actually ran — tests, output, errors",
+                    "By how confident the AI sounds",
+                    "By how long the code is",
+                    "By how fast it was generated",
+                ],
+                answer="By checks that actually ran — tests, output, errors",
+                explanation="Confidence is not evidence. Verification (tests, runs, output) is.",
+            ),
+            QuizQuestion(
+                prompt="Why do tests matter even more with AI agents?",
+                options=[
+                    "They are guardrails that let agents move fast safely and self-correct",
+                    "They make the code longer",
+                    "Agents cannot read tests",
+                    "They replace the need for any review",
+                ],
+                answer="They are guardrails that let agents move fast safely and self-correct",
+                explanation="With a good test net, an agent's mistakes get caught and fixed inside the loop.",
+            ),
+            QuizQuestion(
+                prompt="Which change is safer to accept from an agent?",
+                options=[
+                    "A small focused diff you read and understood",
+                    "A huge diff accepted on faith",
+                    "Any change with a confident summary",
+                    "Whatever compiles",
+                ],
+                answer="A small focused diff you read and understood",
+                explanation="Small reviewed changes keep you accountable and in control of quality.",
+            ),
+        ],
+        challenge=CodingChallenge(
+            prompt="Build the verification step of an agentic workflow. Write `verify_checks(checks)` where `checks` is a list of dicts like `{\"name\": \"tests\", \"passed\": True}`. Return `{\"passed\": <count>, \"failed\": <count>, \"ok\": <True if nothing failed>, \"failures\": [names of failed checks]}`.",
+            starter_code="""def verify_checks(checks):
+    # Summarize check results: counts, overall ok, and failure names.
+    pass
+""",
+            tests="""assert verify_checks([{"name": "tests", "passed": True}, {"name": "lint", "passed": True}]) == {"passed": 2, "failed": 0, "ok": True, "failures": []}
+assert verify_checks([{"name": "tests", "passed": False}, {"name": "lint", "passed": True}]) == {"passed": 1, "failed": 1, "ok": False, "failures": ["tests"]}
+assert verify_checks([]) == {"passed": 0, "failed": 0, "ok": True, "failures": []}
+print("All tests passed for verify_checks")
+""",
+            hints=[
+                "Collect the names of checks where passed is False.",
+                "passed count is total minus failures.",
+                "ok is simply whether the failures list is empty.",
+            ],
+            sample_solution="""def verify_checks(checks):
+    failures = [check["name"] for check in checks if not check["passed"]]
+    return {
+        "passed": len(checks) - len(failures),
+        "failed": len(failures),
+        "ok": not failures,
+        "failures": failures,
+    }
+""",
+        ),
+        prompt_skill="End every agent task with: 'Run the checks, show me the real output, and list anything you could not verify.'",
+    ),
 ]
 
 

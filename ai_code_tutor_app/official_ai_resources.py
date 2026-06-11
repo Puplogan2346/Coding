@@ -416,6 +416,46 @@ OFFICIAL_AI_RESOURCES: tuple[OfficialAIResource, ...] = (
         recommended_when="Use after Python, data structures, and basic ML concepts.",
         tags=("nvidia", "deep learning", "certification", "gpu", "data science"),
     ),
+    OfficialAIResource(
+        id="agentic_engineer_principled_ai_coding",
+        provider="Agentic Engineer (IndyDevDan)",
+        title="Principled AI Coding",
+        resource_type="Paid course",
+        level="Intermediate",
+        time_commitment="Self-paced course",
+        url="https://agenticengineer.com/principled-ai-coding",
+        certificate="No certificate listed",
+        summary=(
+            "IndyDevDan's course on the foundations of AI coding: managing context, writing "
+            "effective prompts, and selecting the right model for each job."
+        ),
+        why_it_matters=(
+            "Pairs directly with this app's lessons 22-23 — the 'big three' of context, prompt, "
+            "and model come from this school of thought."
+        ),
+        recommended_when="Use after lessons 10 (prompting) and 22-23 (agents and directing them).",
+        tags=("agentic", "prompting", "context", "ai coding", "indydevdan"),
+    ),
+    OfficialAIResource(
+        id="agentic_engineer_tactical_agentic_coding",
+        provider="Agentic Engineer (IndyDevDan)",
+        title="Tactical Agentic Coding",
+        resource_type="Paid course",
+        level="Intermediate to advanced",
+        time_commitment="Self-paced course",
+        url="https://agenticengineer.com",
+        certificate="No certificate listed",
+        summary=(
+            "The follow-up course on building autonomous agentic systems: specs and plans as "
+            "durable artifacts, verification loops, and workflows where agents build systems."
+        ),
+        why_it_matters=(
+            "The natural next step after lesson 24 if you want to go deep on agentic workflows "
+            "and automating real engineering work."
+        ),
+        recommended_when="Use after finishing the agentic coding arc (lessons 22-24).",
+        tags=("agentic", "agents", "workflows", "verification", "indydevdan"),
+    ),
 )
 
 
