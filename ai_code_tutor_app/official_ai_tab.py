@@ -21,7 +21,7 @@ from official_ai_resources import (
     resources_for_ids,
 )
 from progress import record_official_ai_resource, save_progress
-from ui_components import render_card, render_official_resource_summary
+from ui_components import render_card, render_official_resource_summary, select_pace_control
 
 
 def official_resource_status(progress_data: dict, resource_id: str) -> str:
@@ -89,12 +89,17 @@ def render_official_ai_tab(progress_data: dict, progress_path) -> None:
                 st.write(f"- **{resource.provider}: {resource.title}** - {status}")
 
     st.subheader("Browse and track official resources")
-    filter_cols = st.columns([1, 1, 1])
+    provider_filter = select_pace_control(
+        "Provider", ["All"] + list(PROVIDER_ORDER), index=0,
+        key="official_provider_filter", help_text="Tap a provider to filter the list.",
+    ) or "All"
+    filter_cols = st.columns([2.2, 1])
     with filter_cols[0]:
-        provider_filter = st.selectbox("Provider", ["All"] + list(PROVIDER_ORDER))
+        type_filter = select_pace_control(
+            "Resource type", ["All"] + list(RESOURCE_TYPES), index=0,
+            key="official_type_filter", help_text="Tap a format to filter the list.",
+        ) or "All"
     with filter_cols[1]:
-        type_filter = st.selectbox("Resource type", ["All"] + list(RESOURCE_TYPES))
-    with filter_cols[2]:
         credential_only = st.checkbox("Show cert/certificate options only")
 
     filtered_resources = []

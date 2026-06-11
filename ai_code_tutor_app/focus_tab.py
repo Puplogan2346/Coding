@@ -26,7 +26,7 @@ from progress import (
     save_progress,
 )
 from study_plan import next_mission
-from ui_components import render_focus_blocks
+from ui_components import render_focus_blocks, select_pace_control
 from ui_safety import safe_html_text, truncate_text
 
 
@@ -46,17 +46,28 @@ def render_focus_tab(progress_data: dict, progress_path, lesson) -> None:
     )
 
     pref = progress_data.get("focus_preferences", {})
-    pref_cols = st.columns(5)
+    saved_minutes = int(pref.get("default_minutes", 30))
+    minute_labels = ["10 min", "30 min", "45 min"]
+    saved_minutes_label = f"{saved_minutes} min" if f"{saved_minutes} min" in minute_labels else "30 min"
+    pref_cols = st.columns([1.2, 1.2, 1.6])
     with pref_cols[0]:
-        default_minutes = st.selectbox("Default session", [10, 30, 45], index=[10, 30, 45].index(int(pref.get("default_minutes", 30))), format_func=lambda x: f"{x} min")
+        default_minutes_label = select_pace_control(
+            "Default session", minute_labels, index=minute_labels.index(saved_minutes_label),
+            key="focus_default_minutes", help_text="Your usual workout length.",
+        ) or saved_minutes_label
+        default_minutes = int(default_minutes_label.split()[0])
     with pref_cols[1]:
-        adhd_mode = st.checkbox("ADHD-friendly mode", value=bool(pref.get("adhd_friendly_mode", True)))
+        reward_options = ["Tiny wins", "Badges", "Quiet progress"]
+        saved_reward = pref.get("reward_style", "Tiny wins")
+        reward_style = select_pace_control(
+            "Reward style", reward_options,
+            index=reward_options.index(saved_reward if saved_reward in reward_options else "Tiny wins"),
+            key="focus_reward_style", help_text="How the app should celebrate progress.",
+        ) or "Tiny wins"
     with pref_cols[2]:
+        adhd_mode = st.checkbox("ADHD-friendly mode", value=bool(pref.get("adhd_friendly_mode", True)))
         low_stim = st.checkbox("Low-stimulation UI", value=bool(pref.get("low_stimulation_mode", False)))
-    with pref_cols[3]:
         break_reminders = st.checkbox("Break reminders", value=bool(pref.get("break_reminders", True)))
-    with pref_cols[4]:
-        reward_style = st.selectbox("Reward style", ["Tiny wins", "Badges", "Quiet progress"], index=["Tiny wins", "Badges", "Quiet progress"].index(pref.get("reward_style", "Tiny wins") if pref.get("reward_style", "Tiny wins") in ["Tiny wins", "Badges", "Quiet progress"] else "Tiny wins"))
 
     if st.button("Save focus preferences"):
         save_focus_preferences(
@@ -76,7 +87,10 @@ def render_focus_tab(progress_data: dict, progress_path, lesson) -> None:
     coach_cols = st.columns([1.15, 1])
     with coach_cols[0]:
         st.subheader("Build your next session")
-        energy = st.selectbox("Energy right now", ENERGY_LEVELS, index=1, key="focus_tab_energy")
+        energy = select_pace_control(
+            "Energy right now", list(ENERGY_LEVELS), index=1, key="focus_tab_energy",
+            help_text="Sessions adapt to your fuel level.",
+        ) or ENERGY_LEVELS[1]
         available_minutes = st.slider("Minutes available", 10, 45, int(pref.get("default_minutes", 30)), step=5)
         mode = recommended_focus_mode(energy, available_minutes)
         blocks = focus_blocks(mode.minutes, energy)
@@ -112,7 +126,10 @@ def render_focus_tab(progress_data: dict, progress_path, lesson) -> None:
                 st.rerun()
 
         st.subheader("Focus check-in")
-        focus_level = st.selectbox("Focus level", FOCUS_LEVELS, index=1, key="focus_tab_level")
+        focus_level = select_pace_control(
+            "Focus level", list(FOCUS_LEVELS), index=1, key="focus_tab_level",
+            help_text="Where your head is at right now.",
+        ) or FOCUS_LEVELS[1]
         blockers = st.text_area("What might pull you away?", height=80, key="focus_tab_blockers")
         win = st.text_area("What tiny win would count today?", height=80, key="focus_tab_win")
         if st.button("Save focus check-in"):

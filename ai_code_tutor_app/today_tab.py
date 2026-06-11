@@ -150,9 +150,15 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
             saved_default_label = SESSION_LABELS[default_pace_index]
             st.caption(f"Time I have today: 10, 30, or 45 minutes · saved default: {saved_default_label}.")
     with toolbar_cols[1]:
-        today_energy = st.selectbox("Energy", ENERGY_LEVELS, index=1, key=f"today_energy_{mission.day}")
+        today_energy = select_pace_control(
+            "Energy", list(ENERGY_LEVELS), index=1, key=f"today_energy_{mission.day}",
+            help_text="How much fuel you have right now.",
+        ) or ENERGY_LEVELS[1]
     with toolbar_cols[2]:
-        today_focus = st.selectbox("Focus", FOCUS_LEVELS, index=1, key=f"today_focus_{mission.day}")
+        today_focus = select_pace_control(
+            "Focus", list(FOCUS_LEVELS), index=1, key=f"today_focus_{mission.day}",
+            help_text="How locked-in you feel right now.",
+        ) or FOCUS_LEVELS[1]
 
     selected_choice = session_choice_by_label(session_pace)
     if setup_locked:
@@ -201,23 +207,23 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
                     break
         lesson_choice_key = f"today_lesson_choice_{mission.day}_{selected_choice.minutes}"
         if setup_locked:
-            selected_lesson_label = st.selectbox(
+            selected_lesson_label = select_pace_control(
                 "Today's lesson based on time",
                 option_labels,
                 index=option_labels.index(default_lesson_label),
                 key=f"{lesson_choice_key}_locked",
+                help_text="This workout already has a saved lesson so you can continue where you stopped.",
                 disabled=True,
-                help="This workout already has a saved lesson so you can continue where you stopped.",
-            )
+            ) or default_lesson_label
             st.caption("Resume mode: lesson is locked to the one saved with this workout.")
         else:
-            selected_lesson_label = st.selectbox(
+            selected_lesson_label = select_pace_control(
                 "Today's lesson based on time",
                 option_labels,
                 index=option_labels.index(default_lesson_label),
                 key=lesson_choice_key,
-                help="Short sessions suggest review or a tiny next step. Longer sessions suggest the full lesson or stretch work.",
-            )
+                help_text="Short sessions suggest review or a tiny next step. Longer sessions suggest the full lesson or stretch work.",
+            ) or default_lesson_label
         active_option = option_by_label[selected_lesson_label]
         active_lesson_id = active_option.lesson_id
         active_lesson_reason = active_option.reason
@@ -494,8 +500,14 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
                 st.rerun()
 
             with st.form(f"save_gym_session_{mission.day}"):
-                mood = st.selectbox("How did the workout feel?", ["Easy", "Good", "Stuck but learning", "Hard", "Fun"], key=f"gym_mood_{mission.day}")
-                mission_status = st.selectbox("Mission status", ["Completed", "In progress", "Skipped"], key=f"gym_status_{mission.day}")
+                mood = select_pace_control(
+                    "How did the workout feel?", ["Easy", "Good", "Stuck but learning", "Hard", "Fun"],
+                    index=1, key=f"gym_mood_{mission.day}", help_text="Pick the closest vibe.",
+                ) or "Good"
+                mission_status = select_pace_control(
+                    "Mission status", ["Completed", "In progress", "Skipped"],
+                    index=0, key=f"gym_status_{mission.day}", help_text="Completed still counts on rescue days.",
+                ) or "Completed"
                 mark_selected_lesson = st.checkbox(
                     "Mark selected lesson complete when this workout is completed",
                     value=selected_choice.minutes >= 30,

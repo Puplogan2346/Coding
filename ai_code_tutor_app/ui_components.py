@@ -383,8 +383,12 @@ def render_official_resource_summary(resource) -> None:
     )
 
 
-def select_pace_control(label: str, options, index: int, key: str, help_text: str):
-    """Use Streamlit pills when available, otherwise keep the radio fallback."""
+def select_pace_control(label: str, options, index: int, key: str, help_text: str, disabled: bool = False):
+    """iOS-style tile picker: Streamlit pills when available, radio fallback.
+
+    Single-select pills can be tapped off (returning None), so callers should
+    guard with ``or default``.
+    """
     if hasattr(st, "pills"):
         return st.pills(
             label,
@@ -394,5 +398,6 @@ def select_pace_control(label: str, options, index: int, key: str, help_text: st
             help=help_text,
             selection_mode="single",
             width="stretch",
+            disabled=disabled,
         )
-    return st.radio(label, options, index=index, horizontal=True, key=key, help=help_text)
+    return st.radio(label, options, index=index, horizontal=True, key=key, help=help_text, disabled=disabled)

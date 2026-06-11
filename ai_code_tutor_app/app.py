@@ -135,6 +135,18 @@ def apply_theme(low_stimulation: bool = False) -> None:
     div[data-testid="stExpander"] summary {font-weight: 600; padding: .85rem 1rem;}
     div[data-testid="stExpander"] summary:hover {color: #ea580c;}
     div[data-testid="stForm"] {background: #fffdf9; border: 1px solid rgba(0, 0, 0, .07); border-radius: 20px;}
+    /* Pills read as iOS tiles: warm bubbles, bold labels, orange when active */
+    div[data-testid="stPills"] button {
+        border-radius: 12px !important;
+        font-weight: 600;
+        background: #fffdf9;
+        border: 1px solid rgba(0, 0, 0, .10);
+    }
+    div[data-testid="stPills"] button[kind="pillsActive"] {
+        background: rgba(249, 115, 22, .12);
+        border-color: rgba(249, 115, 22, .55);
+        color: #ea580c;
+    }
     /* Inputs and selects: rounded, quiet borders */
     div[data-baseweb="select"] > div {border-radius: 14px !important;}
     div[data-testid="stTextInput"] input, div[data-testid="stTextArea"] textarea {border-radius: 14px !important;}
