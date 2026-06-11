@@ -130,13 +130,13 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
     with toolbar_cols[0]:
         if setup_locked:
             session_pace = saved_pace or SESSION_LABELS[default_pace_index]
-            st.selectbox(
+            select_pace_control(
                 "Time I have today",
                 SESSION_LABELS,
                 index=SESSION_LABELS.index(session_pace),
                 key=f"today_session_pace_locked_{mission.day}",
+                help_text="This workout was already started, so the app keeps the saved pace for a clean resume.",
                 disabled=True,
-                help="This workout was already started, so the app keeps the saved pace for a clean resume.",
             )
             st.caption("Resume mode: pace is locked so your saved checklist still matches the workout.")
         else:
@@ -263,12 +263,13 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
     if setup_locked and gym_active and not gym_saved:
         with st.expander("Time changed since you paused?", expanded=False):
             st.caption("Use this only when you truly need to resize the saved workout. The app will keep your proof draft and compatible checked reps.")
-            convert_pace = st.selectbox(
+            convert_pace = select_pace_control(
                 "Change this saved workout to",
                 SESSION_LABELS,
                 index=SESSION_LABELS.index(selected_choice.label),
                 key=f"convert_pace_{mission.day}",
-            )
+                help_text="Resize the saved workout; compatible reps stay checked.",
+            ) or selected_choice.label
             convert_choice = session_choice_by_label(convert_pace)
             convert_options = workout_lesson_options(
                 progress_data,
@@ -280,7 +281,11 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
             )
             convert_labels = [option.label for option in convert_options]
             if convert_labels:
-                convert_label = st.selectbox("Lesson for the new time", convert_labels, key=f"convert_lesson_{mission.day}_{convert_choice.minutes}")
+                convert_label = select_pace_control(
+                    "Lesson for the new time", convert_labels, index=0,
+                    key=f"convert_lesson_{mission.day}_{convert_choice.minutes}",
+                    help_text="Pick the lesson that fits the new time.",
+                ) or convert_labels[0]
                 convert_option = {option.label: option for option in convert_options}[convert_label]
                 if st.button("Convert saved workout", key=f"convert_workout_{mission.day}"):
                     converted_blocks = gym_blocks_for_choice(convert_choice)

@@ -700,8 +700,23 @@ with st.sidebar:
     # to pick from a 12-item menu before doing anything.
     st.caption("📚 Open the **Lessons** tab to pick a lesson or start Lesson 1.")
 
-    # Everything else lives behind one expander so the sidebar stays calm.
-    with st.expander("Settings", expanded=False):
+    # Everything else reveals behind tappable tiles (no dropdown rows) so the
+    # sidebar stays calm; tapping the active tile again hides the panel.
+    if hasattr(st, "pills"):
+        sidebar_panel = st.pills(
+            "Sidebar tools",
+            ["⚙️ Settings", "📦 Progress tools"],
+            selection_mode="single",
+            default=None,
+            key="sidebar_panel",
+            label_visibility="collapsed",
+            width="stretch",
+        )
+    else:
+        _sidebar_pick = st.radio("Sidebar tools", ["Hidden", "⚙️ Settings", "📦 Progress tools"], index=0, key="sidebar_panel")
+        sidebar_panel = None if _sidebar_pick == "Hidden" else _sidebar_pick
+
+    if sidebar_panel == "⚙️ Settings":
         new_profile_name = st.text_input(
             "Learner profile",
             value=profile_name,
@@ -739,7 +754,7 @@ with st.sidebar:
         else:
             st.caption("Code runner: off (safe-sharing default)")
 
-    with st.expander("Progress tools", expanded=False):
+    if sidebar_panel == "📦 Progress tools":
         st.download_button(
             "Download my progress JSON",
             data=safe_json(progress_data),
