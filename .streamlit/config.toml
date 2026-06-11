@@ -1,0 +1,14 @@
+# Streamlit Cloud reads config from the repo root (its working directory), not
+# from ai_code_tutor_app/.streamlit/. This mirrors the app's theme so the
+# deployed app picks it up; the nested copy covers local runs from the app dir.
+[browser]
+gatherUsageStats = false
+
+# Apple-inspired light theme: iOS system blue accent, Apple gray canvas,
+# white surfaces, near-black text. Pairs with the CSS in app.py apply_theme().
+[theme]
+base = "light"
+primaryColor = "#0071E3"
+backgroundColor = "#F5F5F7"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1D1D1F"
