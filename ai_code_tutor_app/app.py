@@ -72,9 +72,9 @@ def apply_theme(low_stimulation: bool = False) -> None:
         font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
                      "Helvetica Neue", "Segoe UI", Roboto, Arial, sans-serif !important;
     }
-    .stApp {color: #1d1d1f;}
-    [data-testid="stHeader"] {background: rgba(245, 245, 247, .72); backdrop-filter: saturate(180%) blur(20px);}
-    h1, h2, h3 {color: #1d1d1f; font-weight: 700;}
+    .stApp {color: #2d2a26;}
+    [data-testid="stHeader"] {background: rgba(250, 245, 239, .72); backdrop-filter: saturate(180%) blur(20px);}
+    h1, h2, h3 {color: #2d2a26; font-weight: 700;}
     /* Tabs as an iOS segmented control (and hide the underline highlight) */
     .stTabs [data-baseweb="tab-list"] {
         background: rgba(120, 120, 128, .12);
@@ -85,38 +85,38 @@ def apply_theme(low_stimulation: bool = False) -> None:
         max-width: 100%;
         overflow-x: auto;
     }
-    .stTabs [data-baseweb="tab"] {border-radius: 10px; padding: .42rem .9rem; font-weight: 600; color: #1d1d1f;}
-    .stTabs [aria-selected="true"] {background: #ffffff; box-shadow: 0 1px 4px rgba(0, 0, 0, .12);}
+    .stTabs [data-baseweb="tab"] {border-radius: 10px; padding: .42rem .9rem; font-weight: 600; color: #2d2a26;}
+    .stTabs [aria-selected="true"] {background: #fffdf9; box-shadow: 0 1px 4px rgba(0, 0, 0, .12);}
     .stTabs [data-baseweb="tab-highlight"], .stTabs [data-baseweb="tab-border"] {display: none;}
     /* Buttons: bubbly pills with a soft lift on hover and a squish on press */
     .stButton > button {
         border: 1px solid rgba(0, 0, 0, .10);
-        background: #ffffff;
-        color: #1d1d1f;
+        background: #fffdf9;
+        color: #2d2a26;
         box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
         transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease,
                     background .15s ease, color .15s ease, border-color .15s ease;
     }
     .stButton > button:hover {
-        border-color: rgba(0, 113, 227, .45);
-        color: #0071e3;
+        border-color: rgba(249, 115, 22, .45);
+        color: #ea580c;
         transform: translateY(-1px);
         box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
     }
     .stButton > button:active {transform: translateY(0) scale(.97);}
     .stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #0071e3, #7c3aed);
+        background: linear-gradient(135deg, #f97316, #ec4899);
         border-color: transparent;
-        color: #ffffff;
+        color: #fffdf9;
     }
     .stButton > button[kind="primary"]:hover {
-        background: linear-gradient(135deg, #0077ed, #8b5cf6);
-        color: #ffffff;
-        box-shadow: 0 8px 20px rgba(0, 113, 227, .28);
+        background: linear-gradient(135deg, #fb923c, #f472b6);
+        color: #fffdf9;
+        box-shadow: 0 8px 20px rgba(249, 115, 22, .30);
     }
     /* Expanders and forms as bubbly white cards that lift on hover */
     div[data-testid="stExpander"] {
-        background: #ffffff;
+        background: #fffdf9;
         border: 1px solid rgba(0, 0, 0, .07);
         border-radius: 20px;
         box-shadow: 0 1px 3px rgba(0, 0, 0, .03);
@@ -124,12 +124,17 @@ def apply_theme(low_stimulation: bool = False) -> None:
         transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
     }
     div[data-testid="stExpander"]:hover {
-        border-color: rgba(0, 113, 227, .28);
+        border-color: rgba(249, 115, 22, .28);
         box-shadow: 0 6px 20px rgba(0, 0, 0, .06);
         transform: translateY(-1px);
     }
+    /* Streamlit draws its own border on the inner <details>, which clashes
+       with the bubble above and shows as a broken second line — remove it so
+       each expander reads as one clean bubble. */
+    div[data-testid="stExpander"] details {border: none !important; border-radius: inherit; background: transparent;}
     div[data-testid="stExpander"] summary {font-weight: 600; padding: .85rem 1rem;}
-    div[data-testid="stForm"] {background: #ffffff; border: 1px solid rgba(0, 0, 0, .07); border-radius: 20px;}
+    div[data-testid="stExpander"] summary:hover {color: #ea580c;}
+    div[data-testid="stForm"] {background: #fffdf9; border: 1px solid rgba(0, 0, 0, .07); border-radius: 20px;}
     /* Inputs and selects: rounded, quiet borders */
     div[data-baseweb="select"] > div {border-radius: 14px !important;}
     div[data-testid="stTextInput"] input, div[data-testid="stTextArea"] textarea {border-radius: 14px !important;}
@@ -137,7 +142,7 @@ def apply_theme(low_stimulation: bool = False) -> None:
     div[data-testid="stProgress"] > div > div {border-radius: 999px; background: rgba(120, 120, 128, .14);}
     div[data-testid="stProgress"] > div > div > div {
         border-radius: 999px;
-        background: linear-gradient(90deg, #0071e3, #7c3aed, #ec4899);
+        background: linear-gradient(90deg, #f59e0b, #f97316, #ec4899);
     }
     /* Cards and metrics get the same gentle lift */
     .card, .mini-card, div[data-testid="stMetric"], .resource-card, .project-card, .milestone-card {
@@ -150,11 +155,11 @@ def apply_theme(low_stimulation: bool = False) -> None:
     }
     /* Partiful-style gradient headline on the hero */
     .compact-hero h1, .hero h1 {
-        background: linear-gradient(90deg, #0071e3 0%, #7c3aed 55%, #ec4899 100%);
+        background: linear-gradient(90deg, #f59e0b 0%, #f97316 45%, #ec4899 100%);
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-        color: #7c3aed;
+        color: #f97316;
         width: fit-content;
     }
     html {scroll-behavior: smooth;}
@@ -166,30 +171,30 @@ def apply_theme(low_stimulation: bool = False) -> None:
     .hero {
         padding: 2.1rem 2.2rem;
         border-radius: 28px;
-        background: linear-gradient(160deg, #ffffff 35%, rgba(0, 113, 227, .07) 70%, rgba(236, 72, 153, .07));
+        background: linear-gradient(160deg, #fffdf9 35%, rgba(249, 115, 22, .07) 70%, rgba(236, 72, 153, .07));
         border: 1px solid rgba(0, 0, 0, .07);
         box-shadow: 0 1px 3px rgba(0, 0, 0, .03);
         margin-bottom: 1.25rem;
     }
     .hero h1 {font-size: 3rem; margin: 0 0 .3rem 0;}
-    .hero p {font-size: 1.08rem; margin: .2rem 0 0 0; color: rgba(29, 29, 31, .78); max-width: 760px;}
+    .hero p {font-size: 1.08rem; margin: .2rem 0 0 0; color: rgba(45, 42, 38, .78); max-width: 760px;}
     .card {
         border: 1px solid rgba(120, 120, 120, .18);
         border-radius: 22px;
         padding: 1.05rem 1.15rem;
-        background: #ffffff;
+        background: #fffdf9;
         box-shadow: 0 14px 36px rgba(0, 0, 0, .045);
         min-height: 118px;
         margin-bottom: .75rem;
     }
     .card h3 {font-size: 1.05rem; margin: 0 0 .3rem 0;}
-    .card p {margin: 0; color: rgba(29, 29, 31, .74);}
+    .card p {margin: 0; color: rgba(45, 42, 38, .74);}
     .pill {
         display: inline-block;
         padding: .22rem .58rem;
         border-radius: 999px;
-        background: rgba(0, 113, 227, .12);
-        border: 1px solid rgba(0, 113, 227, .18);
+        background: rgba(249, 115, 22, .12);
+        border: 1px solid rgba(249, 115, 22, .18);
         font-size: .8rem;
         margin-right: .35rem;
         margin-bottom: .35rem;
@@ -199,9 +204,9 @@ def apply_theme(low_stimulation: bool = False) -> None:
         border: 1px solid rgba(120, 120, 120, .15);
         border-radius: 16px;
         margin-bottom: .55rem;
-        background: #ffffff;
+        background: #fffdf9;
     }
-    .small-muted {font-size: .88rem; color: rgba(29, 29, 31, .66);}
+    .small-muted {font-size: .88rem; color: rgba(45, 42, 38, .66);}
     .success-soft {background: rgba(52, 199, 89, .12); border-color: rgba(52, 199, 89, .25);}
     .warning-soft {background: rgba(255, 204, 0, .13); border-color: rgba(255, 204, 0, .28);}
     .danger-soft {background: rgba(255, 59, 48, .10); border-color: rgba(255, 59, 48, .22);}
@@ -209,62 +214,62 @@ def apply_theme(low_stimulation: bool = False) -> None:
         padding: .95rem 1.05rem;
         border-radius: 18px;
         border: 1px solid rgba(120, 120, 120, .15);
-        background: #ffffff;
+        background: #fffdf9;
         margin-bottom: .7rem;
     }
     .step-card strong {font-size: 1rem;}
-    .step-card span {display: block; color: rgba(29, 29, 31, .70); margin-top: .2rem;}
+    .step-card span {display: block; color: rgba(45, 42, 38, .70); margin-top: .2rem;}
 
     .daily-action-card {
         position: sticky;
         top: .5rem;
         z-index: 6;
-        border: 1px solid rgba(0, 113, 227, .22);
+        border: 1px solid rgba(249, 115, 22, .22);
         border-radius: 24px;
         padding: 1rem 1.1rem;
-        background: #ffffff;
+        background: #fffdf9;
         box-shadow: 0 14px 36px rgba(0, 0, 0, .075);
         margin-bottom: .85rem;
     }
     .daily-action-card h2 {margin: 0 0 .25rem 0; font-size: 1.45rem;}
-    .daily-action-card p {margin: .15rem 0; color: rgba(29, 29, 31, .72);}
+    .daily-action-card p {margin: .15rem 0; color: rgba(45, 42, 38, .72);}
     .compact-hero {
         padding: 1.15rem 1.35rem;
         border-radius: 22px;
-        background: linear-gradient(160deg, #ffffff 35%, rgba(0, 113, 227, .07) 70%, rgba(236, 72, 153, .07));
+        background: linear-gradient(160deg, #fffdf9 35%, rgba(249, 115, 22, .07) 70%, rgba(236, 72, 153, .07));
         border: 1px solid rgba(0, 0, 0, .07);
         box-shadow: 0 1px 3px rgba(0, 0, 0, .03);
         margin-bottom: .65rem;
     }
     .compact-hero h1 {font-size: 2.15rem; margin: 0 0 .15rem 0;}
-    .compact-hero p {margin: 0; color: rgba(29, 29, 31, .72);}
+    .compact-hero p {margin: 0; color: rgba(45, 42, 38, .72);}
     .resource-card {
         border: 1px solid rgba(120, 120, 120, .16);
         border-radius: 20px;
         padding: 1rem 1.1rem;
-        background: #ffffff;
+        background: #fffdf9;
         margin-bottom: .8rem;
     }
     .resource-card h3 {margin: 0 0 .25rem 0; font-size: 1.06rem;}
-    .resource-card p {margin: .25rem 0; color: rgba(29, 29, 31, .74);}
-    .resource-meta {font-size: .86rem; color: rgba(29, 29, 31, .68); margin-bottom: .45rem;}
+    .resource-card p {margin: .25rem 0; color: rgba(45, 42, 38, .74);}
+    .resource-meta {font-size: .86rem; color: rgba(45, 42, 38, .68); margin-bottom: .45rem;}
     .track-card {
         padding: .85rem 1rem;
         border: 1px solid rgba(120, 120, 120, .15);
         border-radius: 16px;
         margin-bottom: .55rem;
-        background: #ffffff;
+        background: #fffdf9;
     }
     .mission-card {
-        border: 1px solid rgba(0, 113, 227, .20);
+        border: 1px solid rgba(249, 115, 22, .20);
         border-radius: 26px;
         padding: 1.2rem 1.25rem;
-        background: linear-gradient(135deg, rgba(0, 113, 227, .11), rgba(0, 113, 227, .11));
+        background: linear-gradient(135deg, rgba(249, 115, 22, .11), rgba(249, 115, 22, .11));
         margin-bottom: 1rem;
     }
     .mission-card h2 {margin-top: 0;}
     .block-list {
-        border-left: 3px solid rgba(0, 113, 227, .35);
+        border-left: 3px solid rgba(249, 115, 22, .35);
         padding-left: .8rem;
         margin-bottom: .65rem;
     }
@@ -273,41 +278,41 @@ def apply_theme(low_stimulation: bool = False) -> None:
         border-radius: 16px;
         padding: .7rem .8rem;
         margin-bottom: .5rem;
-        background: #ffffff;
+        background: #fffdf9;
     }
     .badge-card strong {display: block; margin-bottom: .15rem;}
-    .badge-card span {color: rgba(29, 29, 31, .70); font-size: .88rem;}
+    .badge-card span {color: rgba(45, 42, 38, .70); font-size: .88rem;}
 
     .focus-card {
-        border: 1px solid rgba(0, 113, 227, .18);
+        border: 1px solid rgba(249, 115, 22, .18);
         border-radius: 18px;
         padding: .85rem 1rem;
-        background: rgba(0, 113, 227, .065);
+        background: rgba(249, 115, 22, .065);
         margin-bottom: .55rem;
     }
     .focus-card strong {display: block; margin-bottom: .15rem;}
-    .focus-card span {color: rgba(29, 29, 31, .72); font-size: .9rem;}
+    .focus-card span {color: rgba(45, 42, 38, .72); font-size: .9rem;}
     .project-card {
         border: 1px solid rgba(120, 120, 120, .16);
         border-radius: 20px;
         padding: 1rem 1.1rem;
-        background: #ffffff;
+        background: #fffdf9;
         margin-bottom: .8rem;
     }
     .project-card h3 {margin: 0 0 .25rem 0; font-size: 1.08rem;}
-    .project-card p {margin: .25rem 0; color: rgba(29, 29, 31, .74);}
+    .project-card p {margin: .25rem 0; color: rgba(45, 42, 38, .74);}
     .parking-item {
         padding: .55rem .7rem;
         border-radius: 14px;
         border: 1px dashed rgba(120, 120, 120, .28);
         margin-bottom: .4rem;
-        background: #ffffff;
+        background: #fffdf9;
     }
     div[data-testid="stMetric"] {
         border: 1px solid rgba(120, 120, 120, .15);
         border-radius: 18px;
         padding: .8rem .95rem;
-        background: #ffffff;
+        background: #fffdf9;
     }
     .skip-link {
         position: absolute;
@@ -316,8 +321,8 @@ def apply_theme(low_stimulation: bool = False) -> None:
         z-index: 9999;
         padding: .55rem .85rem;
         border-radius: 999px;
-        background: #ffffff;
-        border: 2px solid rgba(0, 113, 227, .60);
+        background: #fffdf9;
+        border: 2px solid rgba(249, 115, 22, .60);
     }
     .skip-link:focus {left: .75rem;}
     .hero-meta {margin-top: .8rem; display: flex; gap: .5rem; flex-wrap: wrap;}
@@ -327,29 +332,29 @@ def apply_theme(low_stimulation: bool = False) -> None:
         gap: .3rem;
         padding: .32rem .68rem;
         border-radius: 999px;
-        border: 1px solid rgba(0, 113, 227, .16);
-        background: #ffffff;
+        border: 1px solid rgba(249, 115, 22, .16);
+        background: #fffdf9;
         font-size: .86rem;
     }
     .action-callout {
         padding: 1.05rem 1.15rem;
         border-radius: 24px;
-        background: linear-gradient(135deg, rgba(0, 113, 227, .13), rgba(0, 113, 227, .11));
-        border: 1px solid rgba(0, 113, 227, .22);
+        background: linear-gradient(135deg, rgba(249, 115, 22, .13), rgba(249, 115, 22, .11));
+        border: 1px solid rgba(249, 115, 22, .22);
         margin: .85rem 0 1rem 0;
     }
     .action-callout h3 {margin: 0 0 .25rem 0; font-size: 1.25rem;}
-    .action-callout p {margin: .25rem 0; color: rgba(29, 29, 31, .74);}
+    .action-callout p {margin: .25rem 0; color: rgba(45, 42, 38, .74);}
     .mini-card {
         border: 1px solid rgba(120, 120, 120, .14);
         border-radius: 18px;
         padding: .85rem .95rem;
-        background: #ffffff;
+        background: #fffdf9;
         min-height: 106px;
         margin-bottom: .75rem;
     }
     .mini-card strong {display: block; margin-bottom: .2rem;}
-    .mini-card span {color: rgba(29, 29, 31, .72); font-size: .92rem;}
+    .mini-card span {color: rgba(45, 42, 38, .72); font-size: .92rem;}
     .timeline-wrap {
         display: flex;
         flex-wrap: wrap;
@@ -366,29 +371,29 @@ def apply_theme(low_stimulation: bool = False) -> None:
         justify-content: center;
         font-size: .74rem;
         border: 1px solid rgba(120, 120, 120, .24);
-        background: #ffffff;
-        color: rgba(29, 29, 31, .76);
+        background: #fffdf9;
+        color: rgba(45, 42, 38, .76);
     }
     .day-dot.complete {background: rgba(52, 199, 89, .16); border-color: rgba(52, 199, 89, .30);}
-    .day-dot.current {background: rgba(0, 113, 227, .18); border-color: rgba(0, 113, 227, .42); font-weight: 700;}
+    .day-dot.current {background: rgba(249, 115, 22, .18); border-color: rgba(249, 115, 22, .42); font-weight: 700;}
     .day-dot.skipped, .day-dot.missed {background: rgba(255, 204, 0, .13); border-color: rgba(255, 204, 0, .32);}
     .coach-toolbar {
         border: 1px solid rgba(120, 120, 120, .15);
         border-radius: 22px;
         padding: .9rem 1rem;
-        background: #ffffff;
+        background: #fffdf9;
         margin-bottom: .85rem;
     }
-    .progress-caption {font-size: .9rem; color: rgba(29, 29, 31, .70); margin-top: .15rem;}
+    .progress-caption {font-size: .9rem; color: rgba(45, 42, 38, .70); margin-top: .15rem;}
     .coach-summary {
-        border: 1px solid rgba(0, 113, 227, .22);
+        border: 1px solid rgba(249, 115, 22, .22);
         border-radius: 28px;
         padding: 1.15rem 1.25rem;
-        background: linear-gradient(135deg, rgba(0, 113, 227, .12), #ffffff);
+        background: linear-gradient(135deg, rgba(249, 115, 22, .12), #fffdf9);
         margin: .85rem 0 1rem 0;
     }
     .coach-summary h2 {margin: 0 0 .35rem 0; font-size: 1.55rem;}
-    .coach-summary p {margin: .25rem 0; color: rgba(29, 29, 31, .76);}
+    .coach-summary p {margin: .25rem 0; color: rgba(45, 42, 38, .76);}
     .coach-strip {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -399,21 +404,21 @@ def apply_theme(low_stimulation: bool = False) -> None:
         border: 1px solid rgba(120, 120, 120, .14);
         border-radius: 18px;
         padding: .75rem .8rem;
-        background: #ffffff;
+        background: #fffdf9;
     }
     .coach-strip-item strong {display: block; font-size: .92rem; margin-bottom: .16rem;}
-    .coach-strip-item span {font-size: .88rem; color: rgba(29, 29, 31, .70);}
+    .coach-strip-item span {font-size: .88rem; color: rgba(45, 42, 38, .70);}
     .timeline-legend {display:flex; flex-wrap:wrap; gap:.4rem; margin: -.35rem 0 .85rem 0;}
     .legend-pill {
         display:inline-flex; align-items:center; gap:.32rem;
         padding:.22rem .52rem; border-radius:999px;
-        border:1px solid rgba(120,120,120,.16); background:#ffffff;
-        font-size:.8rem; color:rgba(29,29,31,.72);
+        border:1px solid rgba(120,120,120,.16); background:#fffdf9;
+        font-size:.8rem; color:rgba(45,42,38,.72);
     }
     .legend-swatch {width:.68rem; height:.68rem; border-radius:999px; border:1px solid rgba(120,120,120,.24);}
     .legend-swatch.complete {background: rgba(52, 199, 89, .22);}
-    .legend-swatch.current {background: rgba(0, 113, 227, .25);}
-    .legend-swatch.upcoming {background: #ffffff;}
+    .legend-swatch.current {background: rgba(249, 115, 22, .25);}
+    .legend-swatch.upcoming {background: #fffdf9;}
     .legend-swatch.skipped, .legend-swatch.missed {background: rgba(255, 204, 0, .18);}
     .done-zone {
         border: 1px solid rgba(52, 199, 89, .24);
@@ -423,37 +428,37 @@ def apply_theme(low_stimulation: bool = False) -> None:
         margin: .8rem 0;
     }
     .done-zone strong {display:block; margin-bottom:.15rem;}
-    .done-zone span {color: rgba(29,29,31,.72);}
+    .done-zone span {color: rgba(45,42,38,.72);}
     .gym-shell {
-        border: 1px solid rgba(0, 113, 227, .22);
+        border: 1px solid rgba(249, 115, 22, .22);
         border-radius: 30px;
         padding: 1.15rem 1.25rem;
-        background: linear-gradient(135deg, rgba(0, 113, 227, .12), rgba(0, 113, 227, .10));
+        background: linear-gradient(135deg, rgba(249, 115, 22, .12), rgba(249, 115, 22, .10));
         margin: .85rem 0 1rem 0;
     }
     .gym-shell h2 {margin: 0 0 .3rem 0; font-size: 1.75rem;}
-    .gym-shell p {margin: .22rem 0; color: rgba(29,29,31,.76);}
+    .gym-shell p {margin: .22rem 0; color: rgba(45,42,38,.76);}
     .gym-start {
-        border: 1px solid rgba(0, 113, 227, .20);
+        border: 1px solid rgba(249, 115, 22, .20);
         border-radius: 24px;
         padding: 1rem 1.1rem;
-        background: #ffffff;
+        background: #fffdf9;
         margin: .75rem 0;
     }
     .focus-workout-card {
-        border: 2px solid rgba(0, 113, 227, .28);
+        border: 2px solid rgba(249, 115, 22, .28);
         border-radius: 30px;
         padding: 1.15rem 1.25rem;
-        background: linear-gradient(135deg, rgba(0, 113, 227, .14), #ffffff);
+        background: linear-gradient(135deg, rgba(249, 115, 22, .14), #fffdf9);
         margin: .85rem 0 1rem 0;
         box-shadow: 0 18px 40px rgba(0,0,0,.045);
     }
     .focus-workout-card h3 {margin: 0 0 .35rem 0; font-size: 1.45rem;}
-    .focus-workout-card p {margin: .28rem 0; color: rgba(29,29,31,.76);}
+    .focus-workout-card p {margin: .28rem 0; color: rgba(45,42,38,.76);}
     .focus-workout-card .next-rep {
         border-left: 4px solid rgba(53,111,255,.42);
         padding: .55rem .75rem;
-        background: #ffffff;
+        background: #fffdf9;
         border-radius: 0 16px 16px 0;
         margin: .8rem 0;
     }
@@ -461,11 +466,11 @@ def apply_theme(low_stimulation: bool = False) -> None:
         border: 1px solid rgba(120,120,120,.14);
         border-radius: 16px;
         padding: .65rem .75rem;
-        background: #ffffff;
+        background: #fffdf9;
         margin-bottom: .45rem;
     }
     .smooth-check strong {display:block; margin-bottom:.12rem;}
-    .smooth-check span {font-size:.88rem; color:rgba(29,29,31,.70);}
+    .smooth-check span {font-size:.88rem; color:rgba(45,42,38,.70);}
     .resume-box {
         border: 1px solid rgba(255, 204, 0, .30);
         border-radius: 24px;
@@ -474,17 +479,17 @@ def apply_theme(low_stimulation: bool = False) -> None:
         margin: .75rem 0 1rem 0;
     }
     .resume-box strong {display:block; margin-bottom:.22rem; font-size:1.02rem;}
-    .resume-box span {display:block; color:rgba(29,29,31,.72); font-size:.92rem;}
+    .resume-box span {display:block; color:rgba(45,42,38,.72); font-size:.92rem;}
     .gym-block {
         border: 1px solid rgba(120, 120, 120, .15);
         border-radius: 18px;
         padding: .8rem .9rem;
-        background: #ffffff;
+        background: #fffdf9;
         margin-bottom: .55rem;
     }
     .gym-block strong {display:block; margin-bottom:.15rem;}
-    .gym-block span {font-size:.9rem; color:rgba(29,29,31,.72);}
-    .gym-block em {display:block; margin-top:.25rem; font-size:.84rem; color:rgba(29,29,31,.62);}
+    .gym-block span {font-size:.9rem; color:rgba(45,42,38,.72);}
+    .gym-block em {display:block; margin-top:.25rem; font-size:.84rem; color:rgba(45,42,38,.62);}
     .proof-card {
         border: 1px solid rgba(52, 199, 89, .25);
         border-radius: 20px;
@@ -493,37 +498,37 @@ def apply_theme(low_stimulation: bool = False) -> None:
         margin: .7rem 0;
     }
     .proof-card strong {display:block; margin-bottom:.2rem;}
-    .proof-card span {color:rgba(29,29,31,.72);}
+    .proof-card span {color:rgba(45,42,38,.72);}
     .lesson-choice-card {
-        border: 1px solid rgba(0, 113, 227, .20);
+        border: 1px solid rgba(249, 115, 22, .20);
         border-radius: 20px;
         padding: .9rem 1rem;
         background: rgba(53,111,255,.075);
         margin: .7rem 0;
     }
     .lesson-choice-card strong {display:block; margin-bottom:.18rem;}
-    .lesson-choice-card span {font-size:.9rem; color:rgba(29,29,31,.72);}
+    .lesson-choice-card span {font-size:.9rem; color:rgba(45,42,38,.72);}
     .review-chip {
         border: 1px solid rgba(120,120,120,.16);
         border-radius: 16px;
         padding: .65rem .75rem;
         margin-bottom:.45rem;
-        background:#ffffff;
+        background:#fffdf9;
     }
     .review-chip strong {display:block; margin-bottom:.12rem;}
-    .review-chip span {font-size:.88rem; color:rgba(29,29,31,.70);}
+    .review-chip span {font-size:.88rem; color:rgba(45,42,38,.70);}
 
     .milestone-card {
-        border: 1px solid rgba(0, 113, 227, .18);
+        border: 1px solid rgba(249, 115, 22, .18);
         border-radius: 22px;
         padding: 1rem 1.1rem;
-        background: #ffffff;
+        background: #fffdf9;
         margin-bottom: .8rem;
     }
     .milestone-card.complete {border-color: rgba(52, 199, 89, .30); background: rgba(52, 199, 89, .08);}
-    .milestone-card.current {border-color: rgba(0, 113, 227, .34); background: rgba(0, 113, 227, .08);}
+    .milestone-card.current {border-color: rgba(249, 115, 22, .34); background: rgba(249, 115, 22, .08);}
     .milestone-card h3 {margin: 0 0 .25rem 0; font-size: 1.08rem;}
-    .milestone-card p {margin: .25rem 0; color: rgba(29, 29, 31, .74);}
+    .milestone-card p {margin: .25rem 0; color: rgba(45, 42, 38, .74);}
     .requirement-row {
         display: flex;
         justify-content: space-between;
@@ -533,24 +538,24 @@ def apply_theme(low_stimulation: bool = False) -> None:
         padding: .55rem 0;
     }
     .requirement-row:last-child {border-bottom: 0;}
-    .requirement-row span {color: rgba(29, 29, 31, .70); font-size: .9rem;}
+    .requirement-row span {color: rgba(45, 42, 38, .70); font-size: .9rem;}
     .check-row {
         border: 1px solid rgba(120,120,120,.15);
         border-radius: 16px;
         padding: .7rem .8rem;
         margin-bottom: .5rem;
-        background: #ffffff;
+        background: #fffdf9;
     }
     .check-row strong {display:block; margin-bottom:.1rem;}
-    .check-row span {font-size:.88rem; color:rgba(29,29,31,.70);}
+    .check-row span {font-size:.88rem; color:rgba(45,42,38,.70);}
     .ux-note {
-        border-left: 4px solid rgba(0, 113, 227, .36);
+        border-left: 4px solid rgba(249, 115, 22, .36);
         padding: .65rem .85rem;
-        background: rgba(0, 113, 227, .06);
+        background: rgba(249, 115, 22, .06);
         border-radius: 0 14px 14px 0;
         margin: .7rem 0;
     }
-    .ux-note p {margin:0; color:rgba(29,29,31,.75);}
+    .ux-note p {margin:0; color:rgba(45,42,38,.75);}
     .stButton > button, button[kind="primary"] {
         border-radius: 999px !important;
         min-height: 44px;
@@ -560,7 +565,7 @@ def apply_theme(low_stimulation: bool = False) -> None:
         border-radius: 14px;
     }
     *:focus-visible {
-        outline: 3px solid rgba(0, 113, 227, .55) !important;
+        outline: 3px solid rgba(249, 115, 22, .55) !important;
         outline-offset: 2px !important;
     }
     @media (max-width: 760px) {
@@ -593,7 +598,7 @@ def apply_theme(low_stimulation: bool = False) -> None:
         st.markdown(
             """
 <style>
-    .hero, .mission-card, .action-callout, .coach-summary {background: #ffffff !important;}
+    .hero, .mission-card, .action-callout, .coach-summary {background: #fffdf9 !important;}
     .card, .step-card, .resource-card, .project-card, .focus-card, .mini-card, div[data-testid="stMetric"] {
         box-shadow: none !important;
     }

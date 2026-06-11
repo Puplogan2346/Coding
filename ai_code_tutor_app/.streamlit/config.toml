@@ -5,11 +5,12 @@ enableXsrfProtection = true
 [browser]
 gatherUsageStats = false
 
-# Apple-inspired light theme: iOS system blue accent, Apple gray canvas,
-# white surfaces, near-black text. Pairs with the CSS in app.py apply_theme().
+# Warm sunset theme: cream canvas, warm-white surfaces, espresso text, and a
+# friendly orange accent. Pairs with the CSS in app.py apply_theme().
+# Mirrored at the repo root for Streamlit Cloud (which runs from the repo root).
 [theme]
 base = "light"
-primaryColor = "#0071E3"
-backgroundColor = "#F5F5F7"
-secondaryBackgroundColor = "#FFFFFF"
-textColor = "#1D1D1F"
+primaryColor = "#F97316"
+backgroundColor = "#FAF5EF"
+secondaryBackgroundColor = "#FFFDF9"
+textColor = "#2D2A26"
