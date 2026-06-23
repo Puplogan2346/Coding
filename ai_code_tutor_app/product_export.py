@@ -5,7 +5,7 @@ import json
 import zipfile
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Iterable, Mapping, Sequence
+from typing import Any, Mapping, Sequence
 
 from gamification import calculate_xp, earned_badges, level_for_xp
 from learning_path import graduation_readiness, milestone_statuses, learning_outcomes

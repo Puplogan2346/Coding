@@ -468,7 +468,7 @@ def apply_theme(low_stimulation: bool = False) -> None:
     .focus-workout-card h3 {margin: 0 0 .35rem 0; font-size: 1.45rem;}
     .focus-workout-card p {margin: .28rem 0; color: rgba(45,42,38,.76);}
     .focus-workout-card .next-rep {
-        border-left: 4px solid rgba(53,111,255,.42);
+        border-left: 4px solid rgba(249, 115, 22, .42);
         padding: .55rem .75rem;
         background: #fffdf9;
         border-radius: 0 16px 16px 0;
@@ -506,20 +506,11 @@ def apply_theme(low_stimulation: bool = False) -> None:
         border: 1px solid rgba(52, 199, 89, .25);
         border-radius: 20px;
         padding: .9rem 1rem;
-        background: rgba(52,168,83,.08);
+        background: rgba(52, 199, 89, .08);
         margin: .7rem 0;
     }
     .proof-card strong {display:block; margin-bottom:.2rem;}
     .proof-card span {color:rgba(45,42,38,.72);}
-    .lesson-choice-card {
-        border: 1px solid rgba(249, 115, 22, .20);
-        border-radius: 20px;
-        padding: .9rem 1rem;
-        background: rgba(53,111,255,.075);
-        margin: .7rem 0;
-    }
-    .lesson-choice-card strong {display:block; margin-bottom:.18rem;}
-    .lesson-choice-card span {font-size:.9rem; color:rgba(45,42,38,.72);}
     .review-chip {
         border: 1px solid rgba(120,120,120,.16);
         border-radius: 16px;
@@ -829,10 +820,11 @@ if completed_count == 0 and daily_done == 0:
         "read a little, try the quiz, and save one small win."
     )
 
-# Flat, single-row navigation: seven scannable destinations instead of the old
-# tabs-inside-tabs (3 groups -> 13 sub-tabs). Lower-traffic surfaces (Focus
-# Coach, AI Certs, Prompt Lab, Notes, Deploy) move into expanders so every
-# feature is still reachable without crowding the top bar.
+# Flat, single-row navigation: nine scannable destinations instead of the old
+# tabs-inside-tabs (3 groups -> 13 sub-tabs). Lower-traffic surfaces (AI Certs,
+# Prompt Lab, Notes, Deploy, Glossary) live in the More tab's tile switcher, and
+# Focus Coach is a toggle on Today — so every feature stays reachable without
+# crowding the top bar.
 (
     home_tab,
     today_tab,
@@ -845,7 +837,7 @@ if completed_count == 0 and daily_done == 0:
     more_tab,
 ) = st.tabs(
     [
-        "🏡 Home",
+        "🧭 Home",
         "🏠 Today",
         "📚 Lessons",
         "✏️ Practice",

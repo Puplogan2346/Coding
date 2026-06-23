@@ -75,3 +75,21 @@ def test_review_quiz_prioritizes_weak_lessons_and_caps_length():
     assert len(quiz) == 2
     # No lesson appears twice.
     assert len({lesson.id for lesson, _ in quiz}) == 2
+
+
+def test_quiz_percent_handles_malformed_scores():
+    data = _fresh()
+    data["quiz_scores"] = {
+        "01-python-mindset": "not-a-dict",
+        "02-variables-types": {"percent": "oops"},
+    }
+    assert quiz_percent(data, "01-python-mindset") is None
+    assert quiz_percent(data, "02-variables-types") is None
+    assert quiz_percent(data, "03-conditionals") is None  # absent
+
+
+def test_needs_review_true_for_completed_lesson_with_corrupt_score():
+    data = _fresh()
+    mark_lesson_complete(data, "01-python-mindset")
+    data["quiz_scores"] = {"01-python-mindset": {"percent": None}}
+    assert needs_review(data, "01-python-mindset") is True  # corrupt = not passed

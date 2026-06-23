@@ -608,7 +608,7 @@ def render_today_tab(progress_data: dict, progress_path) -> None:
 
     # Extras live in a compact two-column grid (was five stacked full-width
     # rows) so the tab ends right after the workout instead of scrolling on.
-    st.caption("More: 🏡 Home has today's overview · 🔁 Review has quizzes & flashcards · 📈 Progress has your level and milestones.")
+    st.caption("More: 🧭 Home has today's overview · 🔁 Review has quizzes & flashcards · 📈 Progress has your level and milestones.")
     extras_left, extras_right = st.columns(2)
     with extras_left:
         if st.toggle("Recent gym history", value=False):

@@ -382,7 +382,9 @@ def update_study_streak(data: Dict[str, Any], session_date: date | None = None) 
     previous = _parse_date(str(data.get("last_session_date", "")))
 
     if previous == today:
-        data.setdefault("study_streak", 1)
+        # An active same-day session always means at least a 1-day streak; floor
+        # it (setdefault would leave a corrupt/imported 0 untouched).
+        data["study_streak"] = max(int(data.get("study_streak", 0) or 0), 1)
     elif previous == today - timedelta(days=1):
         data["study_streak"] = int(data.get("study_streak", 0) or 0) + 1
     else:

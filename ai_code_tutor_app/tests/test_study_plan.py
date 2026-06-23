@@ -10,7 +10,18 @@ from progress import (
     record_official_ai_resource,
     record_prompt_score,
     record_quiz_score,
+    update_study_streak,
 )
+
+
+def test_same_day_streak_floors_at_one_even_from_corrupt_zero():
+    # A corrupt/imported file with today's date but a 0 streak should still
+    # report an active 1-day streak after a same-day session (regression).
+    today = date(2026, 6, 23)
+    data = {"last_session_date": today.isoformat(), "study_streak": 0, "longest_streak": 0}
+    update_study_streak(data, today)
+    assert data["study_streak"] == 1
+    assert data["longest_streak"] == 1
 from study_plan import (
     DAILY_PLAN,
     completed_mission_days,
