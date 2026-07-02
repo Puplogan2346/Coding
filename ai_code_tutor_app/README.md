@@ -139,7 +139,7 @@ ui_components.py / ui_safety.py Shared renderers / HTML-escape helpers
 tests/                          pytest suite (~150 tests)
 .streamlit/config.toml          Warm theme + server config (mirrored at repo root)
 ios_wrapper/                    Optional SwiftUI WKWebView wrapper
-.github/workflows/tests.yml     CI test workflow
+../.github/workflows/tests.yml  CI test workflow (repo root — GitHub only runs root workflows)
 ```
 
 ## Suggested next upgrades

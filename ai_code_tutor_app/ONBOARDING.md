@@ -19,7 +19,7 @@ Everything a new engineer (or a future AI session) needs to take over this app: 
 **Run locally** (use `python3`, not `python`):
 ```bash
 cd ai_code_tutor_app
-pip install -r requirements.txt        # streamlit==1.50.0, openai>=2.38.0, pytest>=8.0
+pip install -r requirements.txt        # streamlit==1.58.0 (needs Python 3.10+), openai>=2.38.0, pytest>=8.0
 streamlit run app.py
 ```
 The app works with **no** `OPENAI_API_KEY` (AI buttons just disable).
@@ -125,7 +125,7 @@ The persisted schema is defined in **`progress.py`** by two functions that must 
 
 **Suggested next steps:**
 1. If multi-user is ever a goal, replace file/SQLite-on-container storage with a hosted DB + per-user auth (load/save is centralized in `progress.py`, so the change is contained).
-2. Wire `.github/workflows/tests.yml` to run `python3 -m pytest -q` on PRs so the safety net runs before auto-deploy.
+2. ~~Wire `.github/workflows/tests.yml` to run tests on PRs~~ — done: the workflow now lives at the **repo root** (GitHub only runs root workflows) with `working-directory: ai_code_tutor_app`, so `pytest -q` runs on every push/PR before auto-deploy.
 3. Add a tiny test asserting the two `config.toml` `[theme]` blocks match, so the root/nested copies can't drift.
 4. A lesson editor for adding curriculum items without code edits; custom quizzes from missed questions; completion analytics.
 5. A true sandboxed code runner so hosted learners can actually execute lesson tests.
