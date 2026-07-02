@@ -22,7 +22,7 @@ A single flat row of nine tabs (no nested menus, no dropdowns — every picker i
 - **📚 Lessons** — a clickable list of all 24 lessons with a "Start Lesson 1 / Continue" button; the open lesson's content (objectives, explanation, worked example, common mistake, vocabulary) shows beside it.
 - **✏️ Practice** — the current lesson's quiz and Code Lab challenge.
 - **🔁 Review** — progress-based recommendations, a mixed review quiz, and spaced-repetition flashcards over the glossary.
-- **🛠️ Projects** — project tracks and capstone checkpoints.
+- **🛠️ Projects** — the Build Studio: guided step-by-step builds where you write a real Python program in-app (with structure checks and a downloadable `.py`), plus capstone checkpoints.
 - **🤖 AI Tutor** — optional AI chat about the current lesson.
 - **📈 Progress** — learning path, milestones, graduation checklist, and the dashboard.
 - **⋯ More** — a tile switcher for Glossary, AI Certs, Prompt Lab, Notes, and Deploy tools.
@@ -64,7 +64,7 @@ Each lesson has objectives, an explanation, a worked example, a "common mistake 
 - **Spaced-repetition flashcards** (Leitner system) over the 111-term glossary, plus a progress-based mixed review quiz — all in the Review tab.
 - **Home dashboard** that auto-builds a to-do list, surfaces open mistake cards, and shows project + resource status from real progress.
 - **Learning path**: six milestones, a skill map, graduation checklist, certificate/transcript exports, and learning outcomes.
-- **Projects** with tiny tracks and capstone checkpoints; **streaks, XP, levels, and badges**.
+- **Build Studio projects**: four guided builds (Quiz Scorekeeper, JSON Habit Tracker, Prompt Coach, Text Analyzer) where you grow one real program step by step in an in-app editor — each step has lesson-linked instructions, AST-based structure checks that work even with the code runner off, hints, catch-up code, and a download of your finished `.py`. Checkpoint tracks and **streaks, XP, levels, and badges** round it out.
 - **Quizzes** with saved scores; **coding challenges** with starter code, hints, tests, and sample solutions.
 - **Optional OpenAI-powered AI Tutor**, **Prompt Lab** with a scoring rubric, and an **Official AI lessons/certifications tracker** (Anthropic, Gumloop, OpenAI, Google, Microsoft, AWS, Hugging Face, NVIDIA, and the Agentic Engineer courses). See `OFFICIAL_AI_RESOURCES.md`.
 - **Learner profiles**, progress export/import, JSON + SQLite progress storage, and an optional private-access passcode gate.
@@ -118,7 +118,8 @@ lesson_tab.py                   Clickable lesson list + open-lesson detail
 quiz_tab.py / code_tab.py       Quiz form / Code Lab (tile-switched tests/hints/solution)
 review.py / review_tab.py       Progress-based recommendations + mixed quiz
 flashcards.py / flashcards_tab.py   Leitner spaced-repetition logic / study UI
-projects_tab.py / projects.py   Project tracks and milestones
+projects_tab.py / projects.py   Build Studio UI + project tracks and milestones
+project_builds.py / build_checks.py   Guided build steps content / AST structure checks
 ai_tab.py / ai_tutor.py         AI chat tab / OpenAI helper (optional)
 prompt_tab.py / prompt_lab.py   Prompt Lab + scoring rubric
 notes_tab.py                    Per-lesson notes

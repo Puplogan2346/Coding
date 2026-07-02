@@ -158,6 +158,7 @@ def default_progress(lesson_ids: Iterable[str], profile_name: str = "guest") -> 
         "focus_checkins": [],
         "parking_lot": [],
         "project_milestones": {},
+        "project_builds": {},
         "gym_sessions": {},
         "mistake_cards": [],
         "flashcards": {},
@@ -209,6 +210,7 @@ def normalize_progress_data(
         "daily_checklists",
         "lesson_completed_at",
         "project_milestones",
+        "project_builds",
         "gym_sessions",
         "flashcards",
     ):
@@ -699,3 +701,23 @@ def record_project_milestone(
         "note": note[:500],
         "updated_at": _now(),
     }
+
+
+MAX_BUILD_CODE_CHARS = 20_000
+
+
+def save_build_code(data: Dict[str, Any], project_id: str, code: str) -> None:
+    """Persist the learner's in-progress Build Studio program for a project."""
+    build = data.setdefault("project_builds", {}).setdefault(project_id, {})
+    build["code"] = str(code or "")[:MAX_BUILD_CODE_CHARS]
+    build["updated_at"] = _now()
+
+
+def record_build_step(data: Dict[str, Any], project_id: str, step_id: str, code: str = "") -> None:
+    """Mark a Build Studio step as passed (and save the code that passed it)."""
+    build = data.setdefault("project_builds", {}).setdefault(project_id, {})
+    steps = build.setdefault("steps", {})
+    steps[step_id] = {"status": "Passed", "updated_at": _now()}
+    if code:
+        build["code"] = str(code)[:MAX_BUILD_CODE_CHARS]
+        build["updated_at"] = _now()

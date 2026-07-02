@@ -32,7 +32,7 @@ def test_project_progress_and_next_milestone():
 
 
 def test_recommended_project_moves_with_lessons():
-    lesson_ids = [f"lesson-{index}" for index in range(12)]
+    lesson_ids = [f"lesson-{index}" for index in range(14)]
     data = default_progress(lesson_ids, profile_name="Ava")
     assert recommended_project_id(data) == "quiz_scorekeeper"
 
@@ -47,3 +47,7 @@ def test_recommended_project_moves_with_lessons():
     for lesson_id in lesson_ids[7:10]:
         mark_lesson_complete(data, lesson_id)
     assert recommended_project_id(data) == "personal_ai_code_tutor"
+
+    for lesson_id in lesson_ids[10:13]:
+        mark_lesson_complete(data, lesson_id)
+    assert recommended_project_id(data) == "text_analyzer"

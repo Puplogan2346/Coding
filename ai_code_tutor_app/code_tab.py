@@ -96,3 +96,7 @@ def render_code_tab(lesson) -> None:
         st.write(response)
     if not ai_ready:
         st.caption("Connect the AI tutor to get code hints. Until then, use the built-in hints and sample solution.")
+    st.caption(
+        "🛠️ Ready to use this for real? Open the **Projects** tab — the Build Studio walks you "
+        "through writing a whole program with what you've learned."
+    )

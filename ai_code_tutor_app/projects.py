@@ -83,6 +83,21 @@ PROJECTS: tuple[ProjectTrack, ...] = (
         ),
     ),
     ProjectTrack(
+        "text_analyzer",
+        "Text Analyzer",
+        "Advanced build",
+        150,
+        "Build the classic capstone: a script that cleans a paragraph of text and prints a word-frequency report.",
+        ("functions", "dictionaries", "comprehensions", "error handling", "regex"),
+        (
+            ProjectMilestone("plan", "Plan the analyzer", "Stub functions with docstrings exist for clean, count, and top words."),
+            ProjectMilestone("clean", "Clean the text", "clean_words lowercases, strips punctuation, and survives empty text."),
+            ProjectMilestone("count", "Count the words", "count_words returns a word-to-count dictionary."),
+            ProjectMilestone("report", "Format the report", "top_words sorts correctly and the report reads like a tiny dashboard."),
+            ProjectMilestone("demo", "Demo with proof", "A main-guard demo prints the report and your own asserts pass."),
+        ),
+    ),
+    ProjectTrack(
         "personal_ai_code_tutor",
         "Personal AI Code Tutor Capstone",
         "Capstone",
@@ -136,6 +151,8 @@ def next_project_milestone(progress_data: dict, project_id: str) -> ProjectMiles
 
 def recommended_project_id(progress_data: dict) -> str:
     completed_lessons = len(progress_data.get("completed_lessons", []) or [])
+    if completed_lessons >= 13:
+        return "text_analyzer"
     if completed_lessons >= 10:
         return "personal_ai_code_tutor"
     if completed_lessons >= 7:
