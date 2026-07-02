@@ -11,3 +11,6 @@
    AppTest render check from the playbook.
 4. One commit per task. Push to `main` auto-deploys (Streamlit Cloud). CI runs
    the suite on every push.
+5. Working style: push multi-step work through to done without pausing to ask
+   permission mid-way; stop only for destructive actions or real scope changes.
+6. New machine or account? `MIGRATION.md` is the one-time setup runbook.

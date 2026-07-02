@@ -2,7 +2,7 @@
 
 A private, deploy-ready Streamlit app that feels like a **daily coding gym**: open it, press **Start Today**, complete one 10/30/45-minute workout, save a proof card, and come back tomorrow. It teaches a full 24-lesson Python + AI-coding curriculum with quizzes, coding challenges, spaced-repetition flashcards, projects, and an optional AI tutor.
 
-> New engineer or returning after a break? Read **[ONBOARDING.md](ONBOARDING.md)** for the architecture, data model, the one critical constraint, and how to add a lesson. Planning the next improvement? **[ROADMAP.md](ROADMAP.md)** has ready-to-execute specs (exact files, patterns, tests) so an AI coding session can implement them without re-exploring the repo.
+> New engineer or returning after a break? Read **[ONBOARDING.md](ONBOARDING.md)** for the architecture, data model, the one critical constraint, and how to add a lesson. Planning the next improvement? **[ROADMAP.md](ROADMAP.md)** has ready-to-execute specs (exact files, patterns, tests) so an AI coding session can implement them without re-exploring the repo. New laptop or Claude account? **[MIGRATION.md](MIGRATION.md)** is the one-time setup runbook.
 
 ## Getting started (your first lesson)
 
