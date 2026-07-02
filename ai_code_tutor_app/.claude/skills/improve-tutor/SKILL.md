@@ -76,6 +76,10 @@ of `df.groupby`). Always confirm a new `sample_solution` actually passes its
 
 ## Common tasks (recipes)
 
+**Pick the next improvement** — read `ROADMAP.md` first: it holds ready-to-run
+specs (exact files, patterns to copy, tests) so you can implement without any
+exploration.
+
 **Add a lesson** — append a `Lesson(...)` to `LESSONS` in `curriculum.py`
 (id like `22-topic`). Then, keyed by that id, add: a definition in `GLOSSARY` for
 each new `key_terms` entry, a `WORKED_EXAMPLES` + `COMMON_MISTAKES` entry, and

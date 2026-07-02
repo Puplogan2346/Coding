@@ -123,7 +123,7 @@ The persisted schema is defined in **`progress.py`** by two functions that must 
 - **The in-app code runner is disabled in production** and is explicitly not a secure sandbox; hosted learners self-check challenges against the sample solution rather than executing them.
 - **Repo layout oddity:** the app is a subdirectory of the larger `Coding` repo, so the Streamlit theme config is duplicated at the repo root and the app dir.
 
-**Suggested next steps:**
+**Suggested next steps** (full ready-to-execute specs live in `ROADMAP.md`):
 1. If multi-user is ever a goal, replace file/SQLite-on-container storage with a hosted DB + per-user auth (load/save is centralized in `progress.py`, so the change is contained).
 2. ~~Wire `.github/workflows/tests.yml` to run tests on PRs~~ — done: the workflow now lives at the **repo root** (GitHub only runs root workflows) with `working-directory: ai_code_tutor_app`, so `pytest -q` runs on every push/PR before auto-deploy.
 3. Add a tiny test asserting the two `config.toml` `[theme]` blocks match, so the root/nested copies can't drift.

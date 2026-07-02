@@ -5,6 +5,11 @@
 # Local-only Claude Code settings and private skills
 **/.claude/settings.local.json
 **/.claude/skills/
+# ...except the AI Code Tutor project playbook: it is real project
+# documentation and must survive any one laptop.
+!ai_code_tutor_app/.claude/skills/
+!ai_code_tutor_app/.claude/skills/improve-tutor/
+!ai_code_tutor_app/.claude/skills/improve-tutor/SKILL.md
 
 # Versioned export archives — the source tree is the source of truth, so keep
 # new .zip snapshots out of git (this is what broke the Streamlit deploy:
