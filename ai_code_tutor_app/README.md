@@ -72,6 +72,8 @@ Each lesson has objectives, an explanation, a worked example, a "common mistake 
 
 ## Run locally
 
+Requires **Python 3.10+** (streamlit 1.54+ dropped 3.9).
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\Activate.ps1
