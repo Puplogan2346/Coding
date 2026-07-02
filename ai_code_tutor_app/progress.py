@@ -721,3 +721,10 @@ def record_build_step(data: Dict[str, Any], project_id: str, step_id: str, code:
     if code:
         build["code"] = str(code)[:MAX_BUILD_CODE_CHARS]
         build["updated_at"] = _now()
+
+
+def save_build_ingredients(data: Dict[str, Any], project_id: str, ingredient_ids: Iterable[str]) -> None:
+    """Persist which ingredients the learner picked for a design-your-own build."""
+    build = data.setdefault("project_builds", {}).setdefault(project_id, {})
+    build["ingredients"] = [str(item) for item in ingredient_ids][:20]
+    build["updated_at"] = _now()

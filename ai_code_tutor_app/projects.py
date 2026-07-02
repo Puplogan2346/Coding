@@ -98,6 +98,21 @@ PROJECTS: tuple[ProjectTrack, ...] = (
         ),
     ),
     ProjectTrack(
+        "design_your_own",
+        "Design Your Own",
+        "Free build",
+        180,
+        "Your idea, your program: scope it, pick the Python ingredients it must use, and build it with live structure checks.",
+        ("planning", "functions", "your own ingredients", "testing", "shipping"),
+        (
+            ProjectMilestone("idea", "Name the idea", "A saved note names the problem and who it helps."),
+            ProjectMilestone("plan", "Plan the pieces", "A saved note lists inputs, outputs, and 2-3 function names."),
+            ProjectMilestone("build", "Build the smallest version", "Your code passes the structure check for every ingredient you picked."),
+            ProjectMilestone("test", "Prove it with asserts", "Your code includes at least one assert of your own."),
+            ProjectMilestone("ship", "Ship and demo it", "A demo note says how you ran it outside the app."),
+        ),
+    ),
+    ProjectTrack(
         "personal_ai_code_tutor",
         "Personal AI Code Tutor Capstone",
         "Capstone",

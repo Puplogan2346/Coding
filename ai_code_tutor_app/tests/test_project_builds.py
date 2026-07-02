@@ -16,6 +16,10 @@ from progress import (
     save_build_code,
 )
 from project_builds import (
+    DIY_DEFAULT_INGREDIENT_IDS,
+    DIY_INGREDIENTS,
+    DIY_PROJECT_ID,
+    DIY_SCAFFOLD,
     PROJECT_BUILDS,
     build_completion_percent,
     build_for_project,
@@ -23,7 +27,9 @@ from project_builds import (
     guide_code_before_step,
     next_build_step_index,
     passed_build_steps,
+    saved_build_ingredients,
 )
+from progress import save_build_ingredients
 from projects import project_by_id
 
 EXPECTED_BUILD_IDS = {"quiz_scorekeeper", "habit_tracker_json", "prompt_coach", "text_analyzer"}
@@ -122,3 +128,48 @@ def test_build_progress_roundtrip_and_helpers():
 
     assert guide_code_before_step(build, 0) == build.scaffold
     assert guide_code_before_step(build, 2) == build.steps[1].sample_solution
+
+
+_DIY_EVERYTHING = '''\
+def fair_share(amounts):
+    """Split a bill and cap silly totals."""
+    shares = {"total": 0}
+    for amount in amounts:
+        shares["total"] += amount
+    if not amounts:
+        return 0.0
+    try:
+        share = shares["total"] / len(amounts)
+    except ZeroDivisionError:
+        share = 0.0
+    assert share >= 0
+    return share
+
+
+if __name__ == "__main__":
+    print(f"each pays {fair_share([10, 20]):.2f}")
+'''
+
+
+def test_diy_track_ingredients_and_scaffold():
+    project = project_by_id(DIY_PROJECT_ID)
+    assert [m.id for m in project.milestones] == ["idea", "plan", "build", "test", "ship"]
+    ast.parse(DIY_SCAFFOLD)
+    assert set(DIY_DEFAULT_INGREDIENT_IDS) <= {ingredient.id for ingredient in DIY_INGREDIENTS}
+
+    checks = tuple(ingredient.check for ingredient in DIY_INGREDIENTS)
+    assert all_checks_pass(run_static_checks(_DIY_EVERYTHING, checks))
+    bare = run_static_checks("x = 1", checks)
+    assert not any(result.passed for result in bare)
+    # The scaffold itself must not satisfy any ingredient — checks stay meaningful.
+    scaffold_results = run_static_checks(DIY_SCAFFOLD, checks)
+    assert not any(result.passed for result in scaffold_results)
+
+
+def test_diy_ingredient_selection_roundtrip():
+    data = default_progress(["one"], profile_name="Ava")
+    assert saved_build_ingredients(data, DIY_PROJECT_ID) == ()
+    save_build_ingredients(data, DIY_PROJECT_ID, ["loop", "asserts", "not-a-real-one"])
+    assert saved_build_ingredients(data, DIY_PROJECT_ID) == ("loop", "asserts")
+    normalized = normalize_progress_data(data, ["one"], profile_name="Ava")
+    assert saved_build_ingredients(normalized, DIY_PROJECT_ID) == ("loop", "asserts")

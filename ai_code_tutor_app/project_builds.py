@@ -1575,3 +1575,60 @@ def guide_code_before_step(build: ProjectBuild, step_index: int) -> str:
     if step_index <= 0:
         return build.scaffold
     return build.steps[step_index - 1].sample_solution
+
+
+# --------------------------------------------------------------------------
+# Design Your Own (design_your_own) — the free-build track
+# --------------------------------------------------------------------------
+# No fixed steps here: the learner scopes their own idea, picks which Python
+# "ingredients" their program must use, and the same AST structure checks
+# verify their code against that self-chosen recipe.
+
+DIY_PROJECT_ID = "design_your_own"
+
+DIY_FILENAME = "my_project.py"
+
+DIY_SCAFFOLD = '''\
+"""My own project — built with what I learned.
+
+Describe your idea in the Idea & Plan card, pick your ingredients,
+then build the smallest version that works right here.
+"""
+
+# 1) Write your functions up here.
+
+
+# 2) Then add a demo at the bottom (uncomment and make it yours):
+# if __name__ == "__main__":
+#     print("My project starts here!")
+'''
+
+
+@dataclass(frozen=True)
+class DIYIngredient:
+    id: str
+    label: str
+    check: StepCheck
+
+
+DIY_INGREDIENTS: tuple[DIYIngredient, ...] = (
+    DIYIngredient("function", "At least one function", StepCheck("uses", "function", "Define at least one function")),
+    DIYIngredient("return", "A function that returns a value", StepCheck("uses", "return", "Return a value from a function")),
+    DIYIngredient("decision", "A decision (if/elif/else)", StepCheck("uses", "if", "Make a decision with if")),
+    DIYIngredient("loop", "A loop (for or while)", StepCheck("uses", "loop", "Repeat work with a loop")),
+    DIYIngredient("collection", "A list or dictionary", StepCheck("uses", "collection", "Store data in a list or dictionary")),
+    DIYIngredient("fstring", "f-string output", StepCheck("uses", "f-string", "Format output with an f-string")),
+    DIYIngredient("error_handling", "Error handling (try/except)", StepCheck("uses", "try", "Handle one error with try/except")),
+    DIYIngredient("asserts", "Your own asserts", StepCheck("uses", "assert", "Prove it works with an assert")),
+    DIYIngredient("main_guard", "A main-guard demo", StepCheck("uses", "main-guard", 'Add an if __name__ == "__main__": demo')),
+)
+
+DIY_DEFAULT_INGREDIENT_IDS = ("function", "return", "decision")
+
+
+def saved_build_ingredients(progress_data: Mapping[str, Any], project_id: str) -> tuple[str, ...]:
+    saved = _build_record(progress_data, project_id).get("ingredients", [])
+    if not isinstance(saved, list):
+        return ()
+    valid = {ingredient.id for ingredient in DIY_INGREDIENTS}
+    return tuple(str(item) for item in saved if str(item) in valid)

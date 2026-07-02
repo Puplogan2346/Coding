@@ -402,7 +402,7 @@ def graduation_requirements(progress_data: Mapping[str, Any], total_lessons: int
     quiz_scores = progress_data.get("quiz_scores", {}) or {}
     passed_quizzes = _quiz_passes_for_lessons(progress_data, quiz_scores.keys() if isinstance(quiz_scores, Mapping) else [])
     mistake_cards = sum(1 for card in (progress_data.get("mistake_cards", []) or []) if isinstance(card, Mapping))
-    project_milestones = _project_milestone_count(progress_data, ("quiz_scorekeeper", "habit_tracker_json", "prompt_coach", "text_analyzer", "personal_ai_code_tutor"))
+    project_milestones = _project_milestone_count(progress_data, ("quiz_scorekeeper", "habit_tracker_json", "prompt_coach", "text_analyzer", "design_your_own", "personal_ai_code_tutor"))
     prompt_scores = progress_data.get("prompt_scores", []) or []
     strong_prompts = 0
     for item in prompt_scores:
